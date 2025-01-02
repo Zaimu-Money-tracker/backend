@@ -17,7 +17,7 @@ const conect = async () => {
     const typedError = error as Error;
 
     console.log(
-      "An error ocurred while conecting to database: ",
+      "An error occurred while connecting to database: ",
       typedError.message
     );
   }
