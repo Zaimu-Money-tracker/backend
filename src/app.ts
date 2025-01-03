@@ -1,16 +1,20 @@
 import express from "express";
 import cors from "cors";
 import logger from "morgan";
-import usersRoute from "./routes/user.route.js";
+import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(
-  cors({ origin: ["http://localhost:5173"] }),
+  cors({ origin: "http://localhost:5173", credentials: true }),
   express.json(),
+  cookieParser(),
   logger("dev")
 );
 
-app.use("/api", usersRoute);
+app.use("/api", authRoutes);
+app.use("/api", userRoutes);
 
 export default app;

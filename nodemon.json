@@ -1,6 +1,6 @@
 {
-  "watch": ["src"],
-  "ext": "ts",
-  "ignore": ["dist"],
-  "exec": "ts-node --loader ts-node/esm ./src/server.ts"
+  "watch": ["dist"],
+  "ext": "js",
+  "ignore": ["node_modules"],
+  "exec": "ts-node ./dist/server.js"
 }
