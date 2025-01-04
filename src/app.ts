@@ -17,6 +17,6 @@ app.use(
 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
-app.use("/api", transactionRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 export default app;

@@ -5,11 +5,11 @@ const transactionSchema = new mongoose.Schema(
     type: { type: String, required: true, enum: ["income", "expense"] },
     ammount: { type: Number, required: true },
     name: { type: String, required: true, trim: true },
-    category: { type: String, trim: true },
+    category: { type: String, trim: true, default: "" },
     image: { type: String, required: false },
     description: { type: String, required: false, trim: true },
     date: { type: Date, default: Date.now },
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -18,4 +18,4 @@ const transactionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("transaction", transactionSchema);
+export default mongoose.model("Transaction", transactionSchema);

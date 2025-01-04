@@ -8,5 +8,5 @@ export default interface Transaction {
   image: string;
   description: string;
   date: Date;
-  userId: mongoose.Schema.Types.ObjectId;
+  user: mongoose.Schema.Types.ObjectId;
 }

@@ -1,8 +1,8 @@
-import express from "express";
+import express, { Router } from "express";
 import validateToken from "../middlewares/validateToken.js";
 import { user } from "../controllers/user.controller.js";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.get("/user", validateToken, user);
 

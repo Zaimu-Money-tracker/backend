@@ -8,7 +8,7 @@ export async function getTransactions(req: Request, res: Response) {
     const user = req.user as JwtPayload;
 
     const transactionsFound = await transactionModel
-      .findOne({ userId: user.id })
+      .find({ user: user.id })
       .populate("user");
 
     if (!transactionsFound) {
@@ -34,7 +34,7 @@ export async function getTransaction(req: Request, res: Response) {
     const user = req.user as JwtPayload;
 
     const transactionsFound = await transactionModel
-      .findOne({ userId: user.id, _id: req.params.id })
+      .findOne({ user: user.id, _id: req.params.id })
       .populate("user");
 
     if (!transactionsFound) {
@@ -61,7 +61,7 @@ export async function getIncomes(req: Request, res: Response) {
     const user = req.user as JwtPayload;
 
     const transactionsFound = await transactionModel
-      .find({ userId: user.id, type: "income" })
+      .find({ user: user.id, type: "income" })
       .populate("user");
 
     if (!transactionsFound) {
@@ -88,7 +88,7 @@ export async function getExpenses(req: Request, res: Response) {
     const user = req.user as JwtPayload;
 
     const transactionsFound = await transactionModel
-      .find({ userId: user.id, type: "expense" })
+      .find({ user: user.id, type: "expense" })
       .populate("user");
 
     if (!transactionsFound) {
@@ -132,7 +132,7 @@ export async function createTransaction(req: Request, res: Response) {
       image,
       description,
       date,
-      userId: user.id,
+      user: user.id,
     });
 
     await newTransaction.save();
@@ -156,10 +156,18 @@ export async function deleteTransaction(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    await transactionModel.findOneAndDelete({
-      userId: user.id,
-      _id: req.params.id,
-    });
+    const transactionFound: Transaction | null =
+      await transactionModel.findOneAndDelete({
+        user: user.id,
+        _id: req.params.id,
+      });
+
+    if (!transactionFound) {
+      return (
+        res.send(404).json({ message: "Transaction not found, cannot delete" }),
+        console.log("Transaction not found, cannot delete")
+      );
+    }
 
     res.status(200).json({ message: "Transaction deleted succesfully" });
   } catch (error) {
@@ -180,13 +188,21 @@ export async function updateTransaction(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    await transactionModel.findOneAndUpdate(
-      { userId: user.id, _id: req.params.id },
-      req.body,
-      {
-        new: true,
-      }
-    );
+    const transactionFound: Transaction | null =
+      await transactionModel.findOneAndUpdate(
+        { user: user.id, _id: req.params.id },
+        req.body,
+        {
+          new: true,
+        }
+      );
+
+    if (!transactionFound) {
+      return (
+        res.send(404).json({ message: "Transaction not found, cannot update" }),
+        console.log("Transaction not found, cannot update")
+      );
+    }
 
     res.status(200).json({ message: "Transaction updated succesfully" });
   } catch (error) {

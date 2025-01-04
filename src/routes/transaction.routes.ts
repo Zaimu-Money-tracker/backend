@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Router } from "express";
 import validateToken from "../middlewares/validateToken.js";
 import {
   createTransaction,
@@ -10,14 +10,14 @@ import {
   updateTransaction,
 } from "../controllers/transaction.controller.js";
 
-const route = express.Router();
+const router: Router = express.Router();
 
-route.get("/transactions", validateToken, getTransactions);
-route.get("/transactions/:id", validateToken, getTransaction);
-route.get("/transactions/incomes", validateToken, getIncomes);
-route.get("/transactions/expenses", validateToken, getExpenses);
-route.post("/transactions", validateToken, createTransaction);
-route.delete("/transactions/:id", validateToken, deleteTransaction);
-route.put("/transactions/:id", validateToken, updateTransaction);
+router.get("/", validateToken, getTransactions);
+router.get("/item/:id", validateToken, getTransaction);
+router.get("/incomes", validateToken, getIncomes);
+router.get("/expenses", validateToken, getExpenses);
+router.post("/", validateToken, createTransaction);
+router.delete("/item/:id", validateToken, deleteTransaction);
+router.put("/item/:id", validateToken, updateTransaction);
 
-export default route;
+export default router;

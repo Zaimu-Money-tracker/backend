@@ -49,7 +49,7 @@ export async function login(req: Request, res: Response) {
   try {
     const { email, password }: User = req.body;
 
-    const userFound = await userModel.findOne({ email });
+    const userFound: User | null = await userModel.findOne({ email });
 
     if (!userFound) {
       return (
