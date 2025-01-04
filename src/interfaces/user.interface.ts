@@ -2,7 +2,8 @@ export default interface User {
   name: string;
   lastName: string;
   userName: string;
-  age: number;
+  profilePhoto: string;
+  profession: string;
   email: string;
   password: string;
 }

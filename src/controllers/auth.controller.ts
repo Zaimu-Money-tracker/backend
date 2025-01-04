@@ -6,7 +6,15 @@ import User from "../interfaces/user.interface.js";
 
 export async function register(req: Request, res: Response) {
   try {
-    const { name, lastName, userName, age, email, password }: User = req.body;
+    const {
+      name,
+      lastName,
+      userName,
+      profilePhoto,
+      profession,
+      email,
+      password,
+    }: User = req.body;
 
     const passwordHash: string = await bcrtypt.hash(password, 15);
 
@@ -14,7 +22,8 @@ export async function register(req: Request, res: Response) {
       name,
       lastName,
       userName,
-      age,
+      profilePhoto,
+      profession,
       email,
       password: passwordHash,
     });
@@ -28,10 +37,11 @@ export async function register(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    res
-      .status(500)
-      .json({ message: "Error posting data", error: typedError.message });
-    console.log("Error posting data: ", typedError);
+    res.status(500).json({
+      message: "An error has occurred during register",
+      error: typedError.message,
+    });
+    console.log("An error has occurred during register: ", typedError);
   }
 }
 
@@ -67,14 +77,25 @@ export async function login(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    res
-      .status(500)
-      .json({ message: "Error posting data", error: typedError.message });
-    console.log("Error posting data: ", typedError);
+    res.status(500).json({
+      message: "An error has occurred during login",
+      error: typedError.message,
+    });
+    console.log("An error has occurred during login: ", typedError);
   }
 }
 
 export async function logout(req: Request, res: Response) {
-  res.cookie("token", "", { expires: new Date(0) });
-  res.status(200).json({ messsages: "User logged out successfully" });
+  try {
+    res.cookie("token", "", { expires: new Date(0) });
+    res.status(200).json({ messsages: "User logged out successfully" });
+  } catch (error) {
+    const typedError = error as Error;
+
+    res.status(500).json({
+      message: "An error has occurred during logout",
+      error: typedError.message,
+    });
+    console.log("An error has occurred during logout: ", typedError);
+  }
 }

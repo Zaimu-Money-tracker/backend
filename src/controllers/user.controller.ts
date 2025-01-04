@@ -3,34 +3,35 @@ import userModel from "../models/user.model.js";
 import { JwtPayload } from "jsonwebtoken";
 
 export async function user(req: Request, res: Response) {
-  const user = req.user as JwtPayload | undefined;
+  try {
+    const user = req.user as JwtPayload;
 
-  if (!user) {
-    return (
-      res.status(404).json({ message: "User not found" }),
-      console.log("User not found")
-    );
-  }
+    const userFound = await userModel.findById(user.id);
 
-  const userFound = await userModel.findById(user.id);
+    if (!userFound) {
+      return (
+        res.status(404).json({ message: "User not found" }),
+        console.log("User not found")
+      );
+    }
 
-  if (!userFound) {
-    return (
-      res.status(404).json({ message: "User not found" }),
-      console.log("User not found")
-    );
-  }
-
-  res.status(200).json([
-    { message: "User found successfully" },
-    {
+    res.status(200).json({
       name: userFound.name,
       lastName: userFound.lastName,
       userName: userFound.userName,
-      age: userFound.age,
+      profilePhoto: userFound.profilePhoto,
+      profession: userFound.profession,
       email: userFound.email,
       createdAt: userFound.createdAt,
       updatedAt: userFound.updatedAt,
-    },
-  ]);
+    });
+  } catch (error) {
+    const typedError = error as Error;
+
+    res.status(500).json({
+      message: "An error has occurred, cannot get user",
+      error: typedError.message,
+    });
+    console.log("An error has occurred, cannot get user");
+  }
 }
