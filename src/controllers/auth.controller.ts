@@ -1,34 +1,19 @@
 import { Request, Response } from "express";
-import userModel from "../models/user.model.js";
-import bcrtypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import { accessToken } from "../libs/jwt.js";
 import User from "../interfaces/user.interface.js";
+import * as authService from "../services/auth.service.js";
 
 export async function register(req: Request, res: Response) {
   try {
-    const {
-      name,
-      lastName,
-      userName,
-      profilePhoto,
-      profession,
-      email,
-      password,
-    }: User = req.body;
+    const { password }: User = req.body;
 
-    const passwordHash: string = await bcrtypt.hash(password, 15);
+    const passwordHash: string = await bcrypt.hash(password, 15);
 
-    const user = new userModel({
-      name,
-      lastName,
-      userName,
-      profilePhoto,
-      profession,
-      email,
+    const newUser = await authService.createUser({
+      ...req.body,
       password: passwordHash,
     });
-
-    const newUser = await user.save();
 
     const token: string = await accessToken({ id: newUser._id });
 
@@ -49,7 +34,7 @@ export async function login(req: Request, res: Response) {
   try {
     const { email, password }: User = req.body;
 
-    const userFound: User | null = await userModel.findOne({ email });
+    const userFound = await authService.findUser(email);
 
     if (!userFound) {
       return (
@@ -58,14 +43,14 @@ export async function login(req: Request, res: Response) {
       );
     }
 
-    const matchPassword: boolean = await bcrtypt.compare(
+    const matchPassword: boolean = await bcrypt.compare(
       password,
       userFound.password
     );
 
     if (!matchPassword) {
       return (
-        res.status(401).json({ messagge: "Invalid credentials" }),
+        res.status(401).json({ message: "Invalid credentials" }),
         console.log("User not found")
       );
     }
@@ -88,7 +73,7 @@ export async function login(req: Request, res: Response) {
 export async function logout(req: Request, res: Response) {
   try {
     res.cookie("token", "", { expires: new Date(0) });
-    res.status(200).json({ messsages: "User logged out successfully" });
+    res.status(200).json({ message: "User logged out successfully" });
   } catch (error) {
     const typedError = error as Error;
 

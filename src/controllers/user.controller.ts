@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
-import userModel from "../models/user.model.js";
 import { JwtPayload } from "jsonwebtoken";
-import User from "../interfaces/user.interface.js";
+import * as userService from "../services/users.service.js";
 
 export async function user(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const userFound: User | null = await userModel.findById(user.id);
+    const userFound = await userService.getUserById(user.id);
 
     if (!userFound) {
       return (

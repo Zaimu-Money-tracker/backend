@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
-import Transaction from "../interfaces/transaction.interface.js";
-import transactionModel from "../models/transaction.model.js";
 import { JwtPayload } from "jsonwebtoken";
+import * as transactionsService from "../services/transactions.service.js";
 
 export async function getTransactions(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const transactionsFound = await transactionModel
-      .find({ user: user.id })
-      .populate("user");
+    const transactionsFound = await transactionsService.getAllTransactions(
+      user.id
+    );
 
     if (!transactionsFound) {
       return (
@@ -33,9 +32,10 @@ export async function getTransaction(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const transactionsFound = await transactionModel
-      .findOne({ user: user.id, _id: req.params.id })
-      .populate("user");
+    const transactionsFound = await transactionsService.getTransaction(
+      user.id,
+      req.params.id
+    );
 
     if (!transactionsFound) {
       return (
@@ -60,9 +60,10 @@ export async function getIncomes(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const transactionsFound = await transactionModel
-      .find({ user: user.id, type: "income" })
-      .populate("user");
+    const transactionsFound = await transactionsService.getAllByType(
+      user.id,
+      "income"
+    );
 
     if (!transactionsFound) {
       return (
@@ -87,9 +88,10 @@ export async function getExpenses(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const transactionsFound = await transactionModel
-      .find({ user: user.id, type: "expense" })
-      .populate("user");
+    const transactionsFound = await transactionsService.getAllByType(
+      user.id,
+      "expense"
+    );
 
     if (!transactionsFound) {
       return (
@@ -112,37 +114,12 @@ export async function getExpenses(req: Request, res: Response) {
 
 export async function createTransaction(req: Request, res: Response) {
   try {
-    const {
-      type,
-      ammount,
-      name,
-      category,
-      image,
-      description,
-      date,
-    }: Transaction = req.body;
-
     const user = req.user as JwtPayload;
 
-    const newTransaction = new transactionModel({
-      type,
-      ammount,
-      name,
-      category,
-      image,
-      description,
-      date,
+    await transactionsService.createTransaction({
+      ...req.body,
       user: user.id,
     });
-
-    if (!newTransaction) {
-      return (
-        res.status(404).json({ message: "Transaction not found" }),
-        console.log("Transaction not found")
-      );
-    }
-
-    await newTransaction.save();
 
     res.status(200).json({ message: "Transaction created successfully" });
   } catch (error) {
@@ -163,11 +140,10 @@ export async function deleteTransaction(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const transactionFound: Transaction | null =
-      await transactionModel.findOneAndDelete({
-        user: user.id,
-        _id: req.params.id,
-      });
+    const transactionFound = await transactionsService.deleteTransaction(
+      user.id,
+      req.params.id
+    );
 
     if (!transactionFound) {
       return (
@@ -195,12 +171,11 @@ export async function updateTransaction(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const transactionFound: Transaction | null =
-      await transactionModel.findOneAndUpdate(
-        { user: user.id, _id: req.params.id },
-        req.body,
-        { new: true }
-      );
+    const transactionFound = await transactionsService.updateTransaction(
+      user.id,
+      req.params.id,
+      req.body
+    );
 
     if (!transactionFound) {
       return (

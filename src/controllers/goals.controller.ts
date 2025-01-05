@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
-import goalModel from "../models/goal.model.js";
 import { JwtPayload } from "jsonwebtoken";
-import Goal from "../interfaces/goal.interface.js";
+import * as goalsService from "../services/goals.service.js";
 
 export async function getGoals(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const goalsFound = await goalModel.find({ user: user.id }).populate("user");
+    const goalsFound = await goalsService.getAllGoals(user.id);
 
     if (!goalsFound) {
       return (
@@ -32,9 +31,7 @@ export async function getGoal(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const goalFound = await goalModel
-      .findOne({ user: user.id, _id: req.params.id })
-      .populate("user");
+    const goalFound = await goalsService.getGoal(user.id, req.params.id);
 
     if (!goalFound) {
       return (
@@ -57,27 +54,12 @@ export async function getGoal(req: Request, res: Response) {
 
 export async function createGoal(req: Request, res: Response) {
   try {
-    const { name, image, description, progress, goal }: Goal = req.body;
-
     const user = req.user as JwtPayload;
 
-    const newGoal = new goalModel({
-      name,
-      image,
-      description,
-      progress,
-      goal,
+    await goalsService.createGoal({
+      ...req.body,
       user: user.id,
     });
-
-    if (!newGoal) {
-      return (
-        res.status(404).json({ message: "Goal not found" }),
-        console.log("Goal not found")
-      );
-    }
-
-    await newGoal.save();
 
     res.status(200).json({ message: "Goal created successfully" });
   } catch (error) {
@@ -95,10 +77,7 @@ export async function deleteGoal(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const goalFound: Goal | null = await goalModel.findOneAndDelete({
-      user: user.id,
-      _id: req.params.id,
-    });
+    const goalFound = await goalsService.deleteGoal(user.id, req.params.id);
 
     if (!goalFound) {
       return (
@@ -123,10 +102,10 @@ export async function updateGoal(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
-    const goalFound: Goal | null = await goalModel.findOneAndUpdate(
-      { user: user.id, _id: req.params.id },
-      req.body,
-      { new: true }
+    const goalFound = await goalsService.updateGoal(
+      user.id,
+      req.params.id,
+      req.body
     );
 
     if (!goalFound) {
