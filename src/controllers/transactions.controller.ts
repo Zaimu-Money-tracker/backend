@@ -135,6 +135,13 @@ export async function createTransaction(req: Request, res: Response) {
       user: user.id,
     });
 
+    if (!newTransaction) {
+      return (
+        res.status(404).json({ message: "Transaction not found" }),
+        console.log("Transaction not found")
+      );
+    }
+
     await newTransaction.save();
 
     res.status(200).json({ message: "Transaction created successfully" });
@@ -192,9 +199,7 @@ export async function updateTransaction(req: Request, res: Response) {
       await transactionModel.findOneAndUpdate(
         { user: user.id, _id: req.params.id },
         req.body,
-        {
-          new: true,
-        }
+        { new: true }
       );
 
     if (!transactionFound) {

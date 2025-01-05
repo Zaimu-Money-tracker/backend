@@ -8,7 +8,7 @@ import {
   getTransaction,
   getTransactions,
   updateTransaction,
-} from "../controllers/transaction.controller.js";
+} from "../controllers/transactions.controller.js";
 
 const router: Router = express.Router();
 
