@@ -13,7 +13,8 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "zod": "^3.24.1"
   },
   "scripts": {
     "start": "tsc && node dist/server.js",
