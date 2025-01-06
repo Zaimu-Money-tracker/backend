@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { accessToken } from "../libs/jwt.js";
 import User from "../interfaces/user.interface.js";
 import * as authService from "../services/auth.service.js";
+import { HttpError } from "../utils/errors/http.error.js";
 
 export async function register(req: Request, res: Response) {
   try {
@@ -12,7 +13,7 @@ export async function register(req: Request, res: Response) {
 
     const newUser = await authService.createUser({
       ...req.body,
-      password: passwordHash,
+      passwordHash,
     });
 
     const token: string = await accessToken({ id: newUser._id });
@@ -62,11 +63,13 @@ export async function login(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    res.status(500).json({
-      message: "An error has occurred during login",
-      error: typedError.message,
-    });
-    console.log("An error has occurred during login: ", typedError);
+    typedError instanceof HttpError
+      ? res.status(typedError.statusCode).json({ message: typedError.message })
+      : (res.status(500).json({
+          message: "An error has occurred during login",
+          error: typedError.message,
+        }),
+        console.log("An error has occurred during login: ", typedError));
   }
 }
 

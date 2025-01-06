@@ -1,29 +1,50 @@
 import mongoose from "mongoose";
 import transactionModel from "../models/transaction.model.js";
 import Transaction from "../interfaces/transaction.interface.js";
+import { HttpError } from "../utils/errors/http.error.js";
 
 export async function getAllTransactions(
   userId: mongoose.Schema.Types.ObjectId
 ) {
-  return await transactionModel.find({ user: userId }).populate("user");
+  const transactionFound = await transactionModel
+    .find({ user: userId })
+    .populate("user");
+
+  if (!transactionFound) {
+    throw new HttpError("Transaction not found", 404);
+  }
+
+  return transactionFound;
 }
 
 export async function getTransaction(
   userId: mongoose.Schema.Types.ObjectId,
   paramsId: string
 ) {
-  return await transactionModel
+  const transactionFound = await transactionModel
     .findOne({ user: userId, _id: paramsId })
     .populate("user");
+
+  if (!transactionFound) {
+    throw new HttpError("Transaction not found", 404);
+  }
+
+  return transactionFound;
 }
 
 export async function getAllByType(
   userId: mongoose.Schema.Types.ObjectId,
   type: string
 ) {
-  return await transactionModel
+  const transactionFound = await transactionModel
     .find({ user: userId, type: type })
     .populate("user");
+
+  if (!transactionFound) {
+    throw new HttpError(`${type} not found`, 404);
+  }
+
+  return transactionFound;
 }
 
 export async function createTransaction(
@@ -41,10 +62,16 @@ export async function deleteTransaction(
   userId: mongoose.Schema.Types.ObjectId,
   paramsId: string
 ) {
-  return await transactionModel.findOneAndDelete({
+  const transactionFound = await transactionModel.findOneAndDelete({
     user: userId,
     _id: paramsId,
   });
+
+  if (!transactionFound) {
+    throw new HttpError("Transaction not found, cannot delete", 404);
+  }
+
+  return transactionFound;
 }
 
 export async function updateTransaction(
@@ -52,9 +79,15 @@ export async function updateTransaction(
   paramsId: string,
   bodyUpdate: Transaction
 ) {
-  return await transactionModel.findOneAndUpdate(
+  const transactionFound = await transactionModel.findOneAndUpdate(
     { user: userId, _id: paramsId },
     bodyUpdate,
     { new: true }
   );
+
+  if (!transactionFound) {
+    throw new HttpError("Transaction not found, cannot update", 404);
+  }
+
+  return transactionFound;
 }

@@ -1,7 +1,12 @@
 import User from "../interfaces/user.interface.js";
 import userModel from "../models/user.model.js";
+import { HttpError } from "../utils/errors/http.error.js";
 
 export async function createUser(data: User & { passwordHash: string }) {
+  if (!data.passwordHash) {
+    throw new Error("Password hash is required");
+  }
+
   const newUser = new userModel({
     ...data,
     password: data.passwordHash,
@@ -11,5 +16,11 @@ export async function createUser(data: User & { passwordHash: string }) {
 }
 
 export async function findUser(email: string) {
-  return await userModel.findOne({ email });
+  const foundUser = await userModel.findOne({ email });
+
+  if (!foundUser) {
+    throw new HttpError("User not found", 404);
+  }
+
+  return foundUser;
 }

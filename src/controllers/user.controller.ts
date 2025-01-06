@@ -1,19 +1,13 @@
 import { Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import * as userService from "../services/users.service.js";
+import { HttpError } from "../utils/errors/http.error.js";
 
 export async function user(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
     const userFound = await userService.getUserById(user.id);
-
-    if (!userFound) {
-      return (
-        res.status(404).json({ message: "User not found" }),
-        console.log("User not found")
-      );
-    }
 
     res.status(200).json({
       name: userFound.name,
@@ -28,10 +22,12 @@ export async function user(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    res.status(500).json({
-      message: "An error has occurred, cannot get user",
-      error: typedError.message,
-    });
-    console.log("An error has occurred, cannot get user");
+    typedError instanceof HttpError
+      ? res.status(typedError.statusCode).json({ message: typedError.message })
+      : (res.status(500).json({
+          message: "An error has occurred, cannot get user",
+          error: typedError.message,
+        }),
+        console.log("An error has occurred, cannot get user"));
   }
 }
