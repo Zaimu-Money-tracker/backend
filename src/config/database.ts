@@ -6,7 +6,7 @@ dotenv.config();
 const uri: string | undefined = process.env.MONGO_URI;
 
 if (!uri) {
-  throw new Error("Can't find the database uri");
+  throw new Error("Error connecting with database, can't find uri");
 }
 
 const conect = async () => {
@@ -17,7 +17,7 @@ const conect = async () => {
     const typedError = error as Error;
 
     console.log(
-      "An error occurred while connecting to database: ",
+      "An error occurred while connecting to Zaimu's database: ",
       typedError.message
     );
   }

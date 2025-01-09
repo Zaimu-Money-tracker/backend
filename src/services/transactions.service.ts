@@ -11,7 +11,7 @@ export async function getAllTransactions(
     .populate("user");
 
   if (!transactionFound) {
-    throw new HttpError("Transaction not found", 404);
+    throw new HttpError("No transactions found", 404);
   }
 
   return transactionFound;

@@ -12,7 +12,6 @@ import goalRoutes from "./routes/goals.routes.js";
 // TODO: Fix all errors messages.
 // TODO: Create shortcuts collection, controller, routes, schema and service.
 // TODO: Create a service to upload images (Cloudinary (Could be)).
-// TODO: Automate testings in postman.
 
 const app = express();
 
