@@ -5,7 +5,7 @@ const regex: { text: RegExp; phone: RegExp } = {
   phone: /^\+?[1-9]\d{1,14}$/,
 };
 
-export const register = z.object({
+export const registerScheme = z.object({
   name: z
     .string({ required_error: "Don't leave this field empty, it's important!" })
     .min(3, {
@@ -44,7 +44,6 @@ export const register = z.object({
     .string({
       message: "The photo link doesn't seem right. Please recheck it!",
     })
-    .trim()
     .optional(),
   profession: z
     .string({
@@ -71,7 +70,9 @@ export const register = z.object({
     .string({
       message: "This phone number doesn't seem valid. Please recheck it!",
     })
-    .regex(regex.phone)
+    .regex(regex.phone, {
+      message: "This phone number doesn't seem valid. Please recheck it!",
+    })
     .optional(),
   email: z.string({ required_error: "We need your email to proceed!" }).email({
     message: "That doesn't look like a valid email address. Please recheck it!",
@@ -130,7 +131,7 @@ export const register = z.object({
   }),
 });
 
-export const login = z.object({
+export const loginScheme = z.object({
   email: z.string({ required_error: "We need your email to proceed!" }).email({
     message: "That doesn't look like a valid email address. Please recheck it!",
   }),

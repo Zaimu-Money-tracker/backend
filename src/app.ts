@@ -6,11 +6,8 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import transactionRoutes from "./routes/transactions.routes.js";
 import goalRoutes from "./routes/goals.routes.js";
+import schemaRoutes from "./routes/shortcuts.routes.js";
 
-// TODO: Fix all responses messages.
-// TODO: Fix orthography.
-// TODO: Fix all errors messages.
-// TODO: Create shortcuts collection, controller, routes, schema and service.
 // TODO: Create a service to upload images (Cloudinary (Could be)).
 
 const app = express();
@@ -26,5 +23,6 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/goals", goalRoutes);
+app.use("/api/shortcuts", schemaRoutes);
 
 export default app;

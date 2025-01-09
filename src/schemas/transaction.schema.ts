@@ -27,7 +27,10 @@ export const createTransactionSchema = z.object({
       message:
         "The transaction category doesn't seem right. Please recheck it!",
     })
-    .regex(regex.category)
+    .regex(regex.category, {
+      message:
+        "The transaction category doesn't seem right. Please recheck it!",
+    })
     .trim()
     .toLowerCase()
     .optional(),
@@ -35,7 +38,6 @@ export const createTransactionSchema = z.object({
     .string({
       message: "The image link doesn't seem right. Please recheck it!",
     })
-    .trim()
     .optional(),
   description: z
     .string({
