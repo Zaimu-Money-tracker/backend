@@ -28,6 +28,6 @@ export async function user(req: Request, res: Response) {
           message: "An error has occurred, cannot get user",
           error: typedError.message,
         }),
-        console.log("An error has occurred, cannot get user"));
+        console.log("An error has occurred, cannot get user: ", typedError));
   }
 }

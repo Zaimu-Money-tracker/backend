@@ -7,73 +7,134 @@ const regex: { text: RegExp; phone: RegExp } = {
 
 export const register = z.object({
   name: z
-    .string({ required_error: "First name is required" })
-    .min(3, { message: "Name too short, insert a valid name" })
-    .regex(regex.text, { message: "Name not valid" })
+    .string({ required_error: "Don't leave this field empty, it's important!" })
+    .min(3, {
+      message:
+        "A name this short? Please try again with at least 3 characters!",
+    })
+    .regex(regex.text, { message: "Name only can contain letters" })
     .trim()
     .toLowerCase(),
   lastName: z
-    .string({ required_error: "Last name is required" })
-    .min(3, { message: "Last name too short, insert a valid last name" })
-    .regex(regex.text, { message: "Last name not valid" })
+    .string({ required_error: "Don't leave this field empty, it's important!" })
+    .min(3, {
+      message:
+        "A last name this short? Please try again with at least 3 characters!",
+    })
+    .regex(regex.text, { message: "Name only can contain letters" })
     .trim()
     .toLowerCase(),
   userName: z
-    .string({ required_error: "User name is required" })
-    .min(3, { message: "User name too short, insert a valid user name" })
+    .string({ required_error: "Don't leave this field empty, it's important!" })
+    .min(3, {
+      message:
+        "Too short for a username! Please try again with at least 3 characters!",
+    })
     .trim()
     .toLowerCase(),
   gender: z
-    .string({ required_error: "Gender is required" })
-    .min(3, { message: "Gender not valid" })
+    .string({ required_error: "Don't leave this field empty, it's important!" })
+    .min(3, {
+      message:
+        "Gender is too short. Please try again with at least 3 characters!",
+    })
     .trim()
     .toLowerCase(),
   profilePhoto: z
-    .string({ message: "Invalid profile photo" })
+    .string({
+      message: "The photo link doesn't seem right. Please recheck it!",
+    })
     .trim()
     .optional(),
   profession: z
-    .string({ message: "Invalid profesion" })
-    .min(3, { message: "Invalid profession" })
-    .regex(regex.text, { message: "Invalid profession" })
+    .string({
+      message:
+        "That doesn't seem like a valid profession. Please insert a valid one!",
+    })
+    .min(3, {
+      message: "Professions need at least 3 characters. Please try again!",
+    })
+    .regex(regex.text, {
+      message:
+        "That doesn't seem like a valid profession. Please insert a valid one!",
+    })
     .trim()
     .toLowerCase()
     .optional(),
-  birthDate: z.string({ message: "Invalid date" }).date(),
+  birthDate: z
+    .string({
+      message:
+        "Your date of birth doesn't look right. Please check the format!",
+    })
+    .date(),
   phoneNumber: z
-    .string({ message: "Phone number not valid" })
+    .string({
+      message: "This phone number doesn't seem valid. Please recheck it!",
+    })
     .regex(regex.phone)
     .optional(),
-  email: z
-    .string({ required_error: "Email is required" })
-    .email({ message: "Invalid email" }),
+  email: z.string({ required_error: "We need your email to proceed!" }).email({
+    message: "That doesn't look like a valid email address. Please recheck it!",
+  }),
   password: z
-    .string({ required_error: "Password is required" })
-    .min(6, { message: "Password is too short" }),
+    .string({ required_error: "Don't forget to set a password!" })
+    .min(6, {
+      message:
+        "Your password is too short! Please try again with at least 6 characters!",
+    }),
   settings: z.object({
-    language: z.string({ message: "Language not valid" }).trim(),
-    currency: z.string({ message: "Language not valid" }).trim(),
-    theme: z.string({ message: "Language not valid" }).trim(),
-    weekStart: z.string({ message: "Language not valid" }).trim().optional(),
+    language: z
+      .string({
+        required_error: "Don't leave this field empty, it's important!",
+      })
+      .trim(),
+    currency: z
+      .string({
+        required_error: "Don't leave this field empty, it's important!",
+      })
+      .trim(),
+    theme: z
+      .string({
+        required_error: "Don't leave this field empty, it's important!",
+      })
+      .trim(),
+    weekStart: z
+      .string({ message: "Don't leave this field empty, it's important!" })
+      .trim()
+      .optional(),
     notifications: z.object({
-      email: z.boolean({ message: "Email notifications not valid" }).optional(),
-      push: z.boolean({ message: "Email notifications not valid" }).optional(),
+      email: z
+        .boolean({
+          message: "Email notifications preference must be true or false.",
+        })
+        .optional(),
+      push: z
+        .boolean({
+          message: "Push notifications preference must be true or false.",
+        })
+        .optional(),
       whatsApp: z
-        .boolean({ message: "Email notifications not valid" })
+        .boolean({
+          message: "WhastApp notifications preference must be true or false.",
+        })
         .optional(),
       weeklyReport: z
-        .boolean({ message: "Email notifications not valid" })
+        .boolean({ message: "Weekly report preference must be true or false." })
         .optional(),
       monthlyReport: z
-        .boolean({ message: "Email notifications not valid" })
+        .boolean({
+          message: "Monthly report preference must be true or false.",
+        })
         .optional(),
     }),
   }),
 });
 
 export const login = z.object({
-  email: z
-    .string({ required_error: "Email is required" })
-    .email({ message: "Invalid email" }),
-  password: z.string({ required_error: "Password is required" }),
+  email: z.string({ required_error: "We need your email to proceed!" }).email({
+    message: "That doesn't look like a valid email address. Please recheck it!",
+  }),
+  password: z.string({
+    required_error: "We also need your password to proceed!",
+  }),
 });

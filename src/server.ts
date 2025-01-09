@@ -8,7 +8,7 @@ const port: string | undefined = process.env.SERVER_PORT;
 
 app
   .listen(port, () => {
-    console.log(`Server is running at port ${port}`);
+    console.log(`Server running at port ${port}`);
   })
   .on("error", (error: Error) => {
     throw new Error(

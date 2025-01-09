@@ -7,7 +7,7 @@ export async function getAllGoals(userId: mongoose.Schema.Types.ObjectId) {
   const goalsFound = await goalModel.find({ user: userId }).populate("user");
 
   if (!goalsFound) {
-    throw new HttpError("Goals not found", 404);
+    throw new HttpError("No goals found", 404);
   }
 
   return goalsFound;

@@ -2,19 +2,43 @@ import { z } from "zod";
 
 export const createGoalScheme = z.object({
   name: z
-    .string({ message: "Transaction name is required" })
-    .min(3, { message: "Transaction name is too short" })
+    .string({ required_error: "Don't forget to name your goal!" })
+    .min(3, {
+      message: "The goal name is too short! Please use at least 3 characters.",
+    })
     .trim()
     .toLowerCase(),
-  image: z.string({ message: "Invalid profile photo" }).trim().optional(),
+  image: z
+    .string({
+      message: "The image link doesn't seem right. Please recheck it!",
+    })
+    .trim()
+    .optional(),
   description: z
-    .string({ message: "Transaction name is required" })
-    .min(3, { message: "Transaction name is too short" })
-    .max(256, { message: "Transaction name is too long" })
+    .string({
+      message: "The goal description doesn't seem right. Please recheck it!",
+    })
+    .min(3, {
+      message:
+        "The goal description is too short! Please use at least 3 characters.",
+    })
+    .max(256, {
+      message:
+        "The goal description is too long! Please keep it under 256 characters.",
+    })
     .trim()
     .toLowerCase()
     .optional(),
-  progress: z.number({ message: "Progress is required" }),
-  goal: z.number({ message: "Goal is required" }),
-  date: z.string({ message: "Invalid date" }).datetime().optional(),
+  progress: z.number({
+    required_error: "Don't leave this field empty, it's important!",
+  }),
+  goal: z.number({
+    required_error: "Don't leave this field empty, it's important!",
+  }),
+  date: z
+    .string({
+      message: "The date format looks incorrect. Please make sure it's valid!",
+    })
+    .datetime()
+    .optional(),
 });
