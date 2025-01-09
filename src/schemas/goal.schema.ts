@@ -12,7 +12,6 @@ export const createGoalScheme = z.object({
     .string({
       message: "The image link doesn't seem right. Please recheck it!",
     })
-    .trim()
     .optional(),
   description: z
     .string({

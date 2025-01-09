@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
-export default interface Goal {
+export default interface Shortcut {
   name: string;
+  type: string;
+  category: string;
   image: string;
-  description: string;
-  progress: number;
-  goal: number;
+  amount: number;
   date: Date;
   user: mongoose.Schema.Types.ObjectId;
 }
