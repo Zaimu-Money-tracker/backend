@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const SECRET_KEY: string = process.env.SECRET_KEY ?? "falsekey1234";
+const SECRET_KEY: string = process.env.JWT_SECRET_KEY ?? "falsekey1234";
 
 export default function validateToken(
   req: Request,

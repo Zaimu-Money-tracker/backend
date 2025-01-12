@@ -8,8 +8,6 @@ import transactionRoutes from "./routes/transactions.routes.js";
 import goalRoutes from "./routes/goals.routes.js";
 import schemaRoutes from "./routes/shortcuts.routes.js";
 
-// TODO: Create a service to upload images (Cloudinary (Could be)).
-
 const app = express();
 
 app.use(
@@ -24,5 +22,4 @@ app.use("/api", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/shortcuts", schemaRoutes);
-
 export default app;
