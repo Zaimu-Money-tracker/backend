@@ -41,8 +41,13 @@ export const registerScheme = z.object({
     .trim()
     .toLowerCase(),
   profilePhoto: z
-    .string({
-      message: "The photo link doesn't seem right. Please recheck it!",
+    .object({
+      url: z
+        .string({ message: "Don't leave this field empty, it's important!" })
+        .optional(),
+      id: z
+        .string({ message: "Don't leave this field empty, it's important!" })
+        .optional(),
     })
     .optional(),
   profession: z
@@ -94,7 +99,7 @@ export const registerScheme = z.object({
         required_error: "Don't leave this field empty, it's important!",
       })
       .trim(),
-    theme: z
+    appearance: z
       .string({
         required_error: "Don't leave this field empty, it's important!",
       })
@@ -103,6 +108,23 @@ export const registerScheme = z.object({
       .string({ message: "Don't leave this field empty, it's important!" })
       .trim()
       .optional(),
+    monthStart: z
+      .string({ message: "Don't leave this field empty, it's important!" })
+      .trim()
+      .optional(),
+    theme: z.object({
+      name: z
+        .string({
+          required_error: "Don't leave this field empty, it's important!",
+        })
+        .trim()
+        .toLowerCase(),
+      imageUrl: z
+        .string({
+          required_error: "Don't leave this field empty, it's important!",
+        })
+        .toLowerCase(),
+    }),
     notifications: z.object({
       email: z
         .boolean({
@@ -115,6 +137,21 @@ export const registerScheme = z.object({
         })
         .optional(),
       whatsApp: z
+        .boolean({
+          message: "WhastApp notifications preference must be true or false.",
+        })
+        .optional(),
+      zaimuUpdates: z
+        .boolean({
+          message: "WhastApp notifications preference must be true or false.",
+        })
+        .optional(),
+      goals: z
+        .boolean({
+          message: "WhastApp notifications preference must be true or false.",
+        })
+        .optional(),
+      budgetAlerts: z
         .boolean({
           message: "WhastApp notifications preference must be true or false.",
         })

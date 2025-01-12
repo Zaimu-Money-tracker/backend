@@ -3,7 +3,10 @@ export default interface User {
   lastName: string;
   userName: string;
   gender: string;
-  profilePhoto: string;
+  profilePhoto: {
+    url: string;
+    id: string;
+  };
   profession: string;
   birthDate: Date;
   phoneNumber: string;
@@ -12,12 +15,20 @@ export default interface User {
   settings: {
     language: string;
     currency: string;
-    theme: string;
+    appearance: string;
     weekStart: string;
+    monthStart: string;
+    theme: {
+      name: string;
+      imageUrl: string;
+    };
     notifications: {
       email: boolean;
       push: boolean;
       whatsApp: boolean;
+      zaimuUpdates: boolean;
+      goals: boolean;
+      budgetAlerts: boolean;
       weeklyReport: boolean;
       monthlyReport: boolean;
     };

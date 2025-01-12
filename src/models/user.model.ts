@@ -6,7 +6,10 @@ const userSchema = new mongoose.Schema(
     lastName: { type: String, required: true, trim: true },
     userName: { type: String, required: true, unique: true, trim: true },
     gender: { type: String, required: true, trim: true },
-    profilePhoto: { type: String, required: false, default: "" },
+    profilePhoto: {
+      url: { type: String, require: false, default: "" },
+      id: { type: String, require: false, default: "" },
+    },
     profession: { type: String, required: false, default: "User", trim: true },
     birthDate: { type: Date, required: true },
     phoneNumber: { type: String, required: false, default: "", trim: true },
@@ -15,17 +18,30 @@ const userSchema = new mongoose.Schema(
     settings: {
       language: { type: String, required: true, trim: true },
       currency: { type: String, required: true, trim: true },
-      theme: { type: String, required: true, trim: true },
+      appearance: { type: String, required: true, trim: true },
       weekStart: {
         type: String,
         required: false,
         default: "monday",
         trim: true,
       },
+      monthStart: {
+        type: String,
+        required: false,
+        default: "1",
+        trim: true,
+      },
+      theme: {
+        name: { type: String, required: true, trim: true },
+        imageUrl: { type: String, required: true },
+      },
       notifications: {
         email: { type: Boolean, required: false, default: true },
         push: { type: Boolean, required: false, default: true },
         whatsApp: { type: Boolean, required: false, default: false },
+        zaimuUpdates: { type: Boolean, required: false, default: false },
+        goals: { type: Boolean, required: false, default: false },
+        budgetAlerts: { type: Boolean, required: false, default: false },
         weeklyReport: { type: Boolean, required: false, default: true },
         monthlyReport: { type: Boolean, required: false, default: true },
       },

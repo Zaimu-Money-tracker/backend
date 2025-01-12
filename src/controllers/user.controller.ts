@@ -4,8 +4,9 @@ import * as userService from "../services/users.service.js";
 import { HttpError } from "../utils/errors/http.error.js";
 import * as cloudinaryService from "../services/cloudinary.service.js";
 import fs from "fs-extra";
+import User from "../interfaces/user.interface.js";
 
-export async function user(req: Request, res: Response) {
+export async function getUser(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
 
@@ -34,16 +35,24 @@ export async function user(req: Request, res: Response) {
   }
 }
 
-export async function upload(req: Request, res: Response) {
+export async function uploadUserPhoto(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
-    const { _id } = await userService.getUserById(user.id);
+    const userFound = await userService.getUserById(user.id);
 
     if (req.files) {
-      await cloudinaryService.cloudUpload(
+      const result = await cloudinaryService.cloudUpload(
         req.files.filepath,
-        `users/${_id}/profile`
+        `users/${userFound._id}/profile`
       );
+      const updatedUser: Partial<User> = {
+        profilePhoto: {
+          url: result.secure_url,
+          id: result.public_id,
+        },
+      };
+
+      await userService.updateUser(userFound._id, updatedUser);
     } else {
       res.status(404).json({ message: "No profile photo found" });
     }
@@ -52,7 +61,7 @@ export async function upload(req: Request, res: Response) {
 
     res
       .status(200)
-      .json({ message: "Profile pucture was uploaded successfully" });
+      .json({ message: "Profile photo was uploaded successfully" });
   } catch (error) {
     const typedError = error as Error;
 
