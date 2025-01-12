@@ -22,4 +22,5 @@ app.use("/api", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/shortcuts", schemaRoutes);
+
 export default app;

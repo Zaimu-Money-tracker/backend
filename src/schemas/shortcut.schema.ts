@@ -30,17 +30,16 @@ export const createShortcutScheme = z.object({
     .toLowerCase()
     .optional(),
   image: z
-    .string({
-      message: "The image link doesn't seem right. Please recheck it!",
+    .object({
+      url: z
+        .string({ message: "Don't leave this field empty, it's important!" })
+        .optional(),
+      id: z
+        .string({ message: "Don't leave this field empty, it's important!" })
+        .optional(),
     })
     .optional(),
   amount: z.number({
     required_error: "Don't leave this field empty, it's important!",
   }),
-  date: z
-    .string({
-      message: "The date format looks incorrect. Please make sure it's valid!",
-    })
-    .date()
-    .optional(),
 });

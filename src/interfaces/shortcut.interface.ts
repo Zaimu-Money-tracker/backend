@@ -4,8 +4,10 @@ export default interface Shortcut {
   name: string;
   type: string;
   category: string;
-  image: string;
+  image: {
+    url: string;
+    id: string;
+  };
   amount: number;
-  date: Date;
   user: mongoose.Schema.Types.ObjectId;
 }

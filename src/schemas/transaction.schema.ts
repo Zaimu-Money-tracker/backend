@@ -35,8 +35,13 @@ export const createTransactionSchema = z.object({
     .toLowerCase()
     .optional(),
   image: z
-    .string({
-      message: "The image link doesn't seem right. Please recheck it!",
+    .object({
+      url: z
+        .string({ message: "Don't leave this field empty, it's important!" })
+        .optional(),
+      id: z
+        .string({ message: "Don't leave this field empty, it's important!" })
+        .optional(),
     })
     .optional(),
   description: z
@@ -55,10 +60,14 @@ export const createTransactionSchema = z.object({
     .trim()
     .toLowerCase()
     .optional(),
-  date: z
+  recurring: z.boolean({
+    message: "Recurring transaction must be true or false.",
+  }),
+  recurrency: z
     .string({
-      message: "The date format looks incorrect. Please make sure it's valid!",
+      message:
+        "The recurrency for this transaction doesn't seem right. Please recheck it!",
     })
-    .datetime()
+    .trim()
     .optional(),
 });

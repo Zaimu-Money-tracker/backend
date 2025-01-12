@@ -5,8 +5,12 @@ export default interface Transaction {
   amount: number;
   name: string;
   category: string;
-  image: string;
+  image: {
+    url: string;
+    id: string;
+  };
   description: string;
-  date: Date;
+  recurring: boolean;
+  recurrency: string;
   user: mongoose.Schema.Types.ObjectId;
 }
