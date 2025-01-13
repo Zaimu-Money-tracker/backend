@@ -8,6 +8,6 @@ export default interface Goal {
   };
   description: string;
   progress: number;
-  goal: number;
+  targetAmount: number;
   user: mongoose.Schema.Types.ObjectId;
 }

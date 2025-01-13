@@ -6,7 +6,8 @@ import Shortcut from "../interfaces/shortcut.interface.js";
 export async function getAllShortcuts(userId: mongoose.Schema.Types.ObjectId) {
   const shortcutsFound = await shortcutModel
     .find({ user: userId })
-    .populate("user");
+    .populate("user")
+    .populate("category");
 
   if (!shortcutsFound) {
     throw new HttpError("Not shortcuts found", 404);
@@ -19,10 +20,13 @@ export async function getShortcut(
   userId: mongoose.Schema.Types.ObjectId,
   paramsId: string
 ) {
-  const shortcutFound = await shortcutModel.findOne({
-    user: userId,
-    _id: paramsId,
-  });
+  const shortcutFound = await shortcutModel
+    .findOne({
+      user: userId,
+      _id: paramsId,
+    })
+    .populate("user")
+    .populate("category");
 
   if (!shortcutFound) {
     throw new HttpError("Shortcut not found", 404);

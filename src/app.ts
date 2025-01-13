@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.routes.js";
 import transactionRoutes from "./routes/transactions.routes.js";
 import goalRoutes from "./routes/goals.routes.js";
 import schemaRoutes from "./routes/shortcuts.routes.js";
+import categoryRoutes from "./routes/categories.routes.js";
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use("/api", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/shortcuts", schemaRoutes);
+app.use("/api/categories", categoryRoutes);
 
 export default app;

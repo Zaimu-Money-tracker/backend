@@ -36,7 +36,7 @@ export const createGoalScheme = z.object({
   progress: z.number({
     required_error: "Don't leave this field empty, it's important!",
   }),
-  goal: z.number({
+  targetAmount: z.number({
     required_error: "Don't leave this field empty, it's important!",
   }),
 });

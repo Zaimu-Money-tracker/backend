@@ -8,7 +8,8 @@ export async function getAllTransactions(
 ) {
   const transactionFound = await transactionModel
     .find({ user: userId })
-    .populate("user");
+    .populate("user")
+    .populate("category");
 
   if (!transactionFound) {
     throw new HttpError("No transactions found", 404);
@@ -23,7 +24,8 @@ export async function getTransaction(
 ) {
   const transactionFound = await transactionModel
     .findOne({ user: userId, _id: paramsId })
-    .populate("user");
+    .populate("user")
+    .populate("category");
 
   if (!transactionFound) {
     throw new HttpError("Transaction not found", 404);
@@ -38,7 +40,8 @@ export async function getAllByType(
 ) {
   const transactionFound = await transactionModel
     .find({ user: userId, type: type })
-    .populate("user");
+    .populate("user")
+    .populate("category");
 
   if (!transactionFound) {
     throw new HttpError(`${type} not found`, 404);

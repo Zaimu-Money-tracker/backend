@@ -4,7 +4,11 @@ const shortcutSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, enum: ["income", "expense"] },
     type: { type: String, required: true, trim: true },
-    category: { type: String, required: false, trim: true, default: "" },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: false,
+    },
     image: {
       url: { type: String, require: false, default: "" },
       id: { type: String, require: false, default: "" },

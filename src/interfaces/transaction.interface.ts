@@ -4,7 +4,7 @@ export default interface Transaction {
   type: string;
   amount: number;
   name: string;
-  category: string;
+  category: mongoose.Schema.Types.ObjectId;
   image: {
     url: string;
     id: string;
