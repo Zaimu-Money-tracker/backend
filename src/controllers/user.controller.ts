@@ -16,9 +16,13 @@ export async function getUser(req: Request, res: Response) {
       name: userFound.name,
       lastName: userFound.lastName,
       userName: userFound.userName,
+      gender: userFound.gender,
       profilePhoto: userFound.profilePhoto,
       profession: userFound.profession,
+      birthDate: userFound.birthDate,
+      phoneNumber: userFound.phoneNumber,
       email: userFound.email,
+      settings: userFound.settings,
       createdAt: userFound.createdAt,
       updatedAt: userFound.updatedAt,
     });

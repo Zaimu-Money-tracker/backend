@@ -16,4 +16,9 @@ export const createCategorySchema = z.object({
     })
     .trim()
     .toLowerCase(),
+  limit: z
+    .number({
+      message: "The category limit must be a number. Please check it!",
+    })
+    .optional(),
 });

@@ -13,3 +13,7 @@ cloudinary.config({
 export async function cloudUpload(filePath: string, folder: string) {
   return await cloudinary.uploader.upload(filePath, { folder });
 }
+
+export async function cloudDelete(publicId: string) {
+  return await cloudinary.uploader.destroy(publicId);
+}

@@ -9,6 +9,8 @@ import goalRoutes from "./routes/goals.routes.js";
 import schemaRoutes from "./routes/shortcuts.routes.js";
 import categoryRoutes from "./routes/categories.routes.js";
 
+// TODO: Remove all console logs in the app
+
 const app = express();
 
 app.use(

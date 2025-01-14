@@ -17,11 +17,8 @@ export default interface User {
     currency: string;
     appearance: string;
     weekStart: string;
-    monthStart: string;
-    theme: {
-      name: string;
-      imageUrl: string;
-    };
+    monthStart: number;
+    theme: string;
     notifications: {
       email: boolean;
       push: boolean;

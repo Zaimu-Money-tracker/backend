@@ -43,10 +43,16 @@ export const registerScheme = z.object({
   profilePhoto: z
     .object({
       url: z
-        .string({ message: "Don't leave this field empty, it's important!" })
+        .string({
+          message:
+            "That doesn't seem like a valid image url. Please insert a valid one!",
+        })
         .optional(),
       id: z
-        .string({ message: "Don't leave this field empty, it's important!" })
+        .string({
+          message:
+            "That doesn't seem like a valid image id. Please insert a valid one!",
+        })
         .optional(),
     })
     .optional(),
@@ -66,11 +72,8 @@ export const registerScheme = z.object({
     .toLowerCase()
     .optional(),
   birthDate: z
-    .string({
-      message:
-        "Your date of birth doesn't look right. Please check the format!",
-    })
-    .date(),
+    .string({ required_error: "Don't leave this field empty, it's important!" })
+    .date("Your date of birth doesn't look right. Please check the format!"),
   phoneNumber: z
     .string({
       message: "This phone number doesn't seem valid. Please recheck it!",
@@ -105,26 +108,26 @@ export const registerScheme = z.object({
       })
       .trim(),
     weekStart: z
-      .string({ message: "Don't leave this field empty, it's important!" })
+      .string({ message: "This week day doesn't seem valid. Please check it!" })
       .trim()
       .optional(),
     monthStart: z
-      .string({ message: "Don't leave this field empty, it's important!" })
-      .trim()
+      .number({
+        message: "This number day doesn't seem valid. Please check it!",
+      })
+      .gte(1, {
+        message: "This number day doesn't seem valid. Please check it!",
+      })
+      .lte(31, {
+        message: "This number day doesn't seem valid. Please check it!",
+      })
       .optional(),
-    theme: z.object({
-      name: z
-        .string({
-          required_error: "Don't leave this field empty, it's important!",
-        })
-        .trim()
-        .toLowerCase(),
-      imageUrl: z
-        .string({
-          required_error: "Don't leave this field empty, it's important!",
-        })
-        .toLowerCase(),
-    }),
+    theme: z
+      .string({
+        required_error: "Don't leave this field empty, it's important!",
+      })
+      .trim()
+      .toLowerCase(),
     notifications: z.object({
       email: z
         .boolean({

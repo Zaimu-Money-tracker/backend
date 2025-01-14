@@ -1,8 +1,8 @@
+import { isValidObjectId } from "mongoose";
 import { z } from "zod";
 
-const regex: { type: RegExp; category: RegExp } = {
+const regex: { type: RegExp } = {
   type: /^(income|expense)$/,
-  category: /^\w+$/,
 };
 
 export const createShortcutScheme = z.object({
@@ -23,11 +23,9 @@ export const createShortcutScheme = z.object({
     .string({
       message: "The shortcut category doesn't seem right. Please recheck it!",
     })
-    .regex(regex.category, {
+    .refine(isValidObjectId, {
       message: "The shortcut category doesn't seem right. Please recheck it!",
     })
-    .trim()
-    .toLowerCase()
     .optional(),
   image: z
     .object({

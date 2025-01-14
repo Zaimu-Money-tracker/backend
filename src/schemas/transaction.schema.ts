@@ -1,8 +1,8 @@
+import { isValidObjectId } from "mongoose";
 import { z } from "zod";
 
-const regex: { type: RegExp; category: RegExp } = {
+const regex: { type: RegExp } = {
   type: /^(income|expense)$/,
-  category: /^\w+$/,
 };
 
 export const createTransactionSchema = z.object({
@@ -27,12 +27,10 @@ export const createTransactionSchema = z.object({
       message:
         "The transaction category doesn't seem right. Please recheck it!",
     })
-    .regex(regex.category, {
+    .refine(isValidObjectId, {
       message:
         "The transaction category doesn't seem right. Please recheck it!",
     })
-    .trim()
-    .toLowerCase()
     .optional(),
   image: z
     .object({

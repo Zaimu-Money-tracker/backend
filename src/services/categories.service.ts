@@ -4,7 +4,9 @@ import categoryModel from "../models/category.model.js";
 import { HttpError } from "../utils/errors/http.error.js";
 
 export async function getAllCategories(userId: mongoose.Schema.Types.ObjectId) {
-  const categoriesFound = await categoryModel.find({ user: userId });
+  const categoriesFound = await categoryModel
+    .find({ user: userId })
+    .populate("user");
 
   if (!categoriesFound) {
     throw new HttpError("No categories found", 404);
@@ -17,10 +19,12 @@ export async function getCategory(
   userId: mongoose.Schema.Types.ObjectId,
   paramsId: string
 ) {
-  const categoryFound = await categoryModel.findOne({
-    user: userId,
-    _id: paramsId,
-  });
+  const categoryFound = await categoryModel
+    .findOne({
+      user: userId,
+      _id: paramsId,
+    })
+    .populate("user");
 
   if (!categoryFound) {
     throw new HttpError("Category not found", 404);

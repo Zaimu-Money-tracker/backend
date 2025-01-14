@@ -19,7 +19,11 @@ export async function register(req: Request, res: Response) {
 
     const token: string = await accessToken({ id: newUser._id });
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      // secure: true, -> // FIXME: ONLY IN PRODUCTION
+      sameSite: "strict",
+    });
     res.status(200).json({ message: "User created successfully" });
   } catch (error) {
     const typedError = error as Error;
