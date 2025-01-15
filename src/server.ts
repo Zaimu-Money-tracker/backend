@@ -11,9 +11,9 @@ app
     console.log(`Server running at port ${port}`);
   })
   .on("error", (error: Error) => {
-    throw new Error(
+    console.error(
       `Can't run the server, an error has occurred: ${error.message}`
     );
   });
 
-conectDB();
+void conectDB();

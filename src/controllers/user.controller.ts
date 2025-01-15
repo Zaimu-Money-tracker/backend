@@ -43,11 +43,13 @@ export async function getUser(req: Request, res: Response) {
 export async function uploadUserPhoto(req: Request, res: Response) {
   try {
     const user = req.user as JwtPayload;
+    const files = req.files as JwtPayload;
+
     const userFound = await userService.getUserById(user.id);
 
-    if (req.files) {
+    if (files) {
       const result = await cloudinaryService.cloudUpload(
-        req.files.filepath,
+        files.filepath,
         `users/${userFound._id}/profile`
       );
       const updatedUser: Partial<User> = {
@@ -62,7 +64,11 @@ export async function uploadUserPhoto(req: Request, res: Response) {
       res.status(404).json({ message: "No profile photo found" });
     }
 
-    await fs.unlink(req.files.filepath);
+    if (!files.filepath) {
+      throw new Error("File path is not allowed!");
+    }
+
+    await fs.unlink(files.filepath);
 
     res
       .status(200)

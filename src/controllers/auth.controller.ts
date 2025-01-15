@@ -43,10 +43,7 @@ export async function login(req: Request, res: Response) {
     const userFound = await authService.findUser(email);
 
     if (!userFound) {
-      return (
-        res.status(404).json({ message: "User not found" }),
-        console.log("User not found")
-      );
+      res.status(404).json({ message: "User not found" });
     }
 
     const matchPassword: boolean = await bcrypt.compare(
@@ -55,10 +52,7 @@ export async function login(req: Request, res: Response) {
     );
 
     if (!matchPassword) {
-      return (
-        res.status(401).json({ message: "Invalid credentials, cannot login" }),
-        console.log("Invalid credentials, cannot login")
-      );
+      res.status(401).json({ message: "Invalid credentials, cannot login" });
     }
 
     const token: string = await accessToken({ id: userFound._id });
@@ -93,6 +87,5 @@ export async function logout(req: Request, res: Response) {
       message: "An error has occurred during logout",
       error: typedError.message,
     });
-    console.log("An error has occurred during logout: ", typedError);
   }
 }

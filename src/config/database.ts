@@ -16,7 +16,7 @@ const conect = async () => {
   } catch (error) {
     const typedError = error as Error;
 
-    console.log(
+    console.error(
       "An error occurred while connecting to Zaimu's database: ",
       typedError.message
     );
