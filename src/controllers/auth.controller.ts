@@ -68,13 +68,14 @@ export async function login(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred during login",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred during login: ", typedError));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred during login",
+        error: typedError.message,
+      });
+    }
   }
 }
 

@@ -40,7 +40,7 @@ export async function createShortcut(
 ) {
   const newShortcut = new shortcutModel({ ...data, user: data.userId });
 
-  return newShortcut.save();
+  return await newShortcut.save();
 }
 
 export async function deleteShortcut(

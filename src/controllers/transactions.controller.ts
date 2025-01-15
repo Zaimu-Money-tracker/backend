@@ -15,15 +15,13 @@ export async function getTransactions(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res
-          .status(500)
-          .json({ message: "An error has occurred, cannot get transactions" }),
-        console.log(
-          "An error has occurred, cannot get transactions: ",
-          typedError
-        ));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res
+        .status(500)
+        .json({ message: "An error has occurred, cannot get transactions" });
+    }
   }
 }
 
@@ -40,16 +38,14 @@ export async function getTransaction(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred, cannot get transaction",
-          error: typedError.message,
-        }),
-        console.log(
-          "An error has occurred, cannot get transaction:",
-          typedError
-        ));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get transaction",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -66,13 +62,14 @@ export async function getIncomes(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred, cannot get incomes",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred, cannot get incomes:", typedError));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get incomes",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -89,13 +86,14 @@ export async function getExpenses(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred, cannot get expenses",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred, cannot get expenses"));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get expenses",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -132,16 +130,14 @@ export async function deleteTransaction(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred while deleting transaction",
-          error: typedError.message,
-        }),
-        console.log(
-          "An error has occurred while deleting transaction: ",
-          typedError
-        ));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while deleting transaction",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -159,15 +155,13 @@ export async function updateTransaction(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred while updating transaction",
-          error: typedError.message,
-        }),
-        console.log(
-          "An error has occurred while updating transaction: ",
-          typedError
-        ));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while updating transaction",
+        error: typedError.message,
+      });
+    }
   }
 }

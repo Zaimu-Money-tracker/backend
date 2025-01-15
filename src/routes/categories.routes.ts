@@ -1,10 +1,10 @@
-import express from "express";
+import express, { Router } from "express";
 import validateToken from "../middlewares/validateToken.js";
 import { validator } from "../middlewares/validator.middleware.js";
 import { createCategorySchema } from "../schemas/category.schema.js";
 import * as categories from "../controllers/categories.controller.js";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.get("/", validateToken, categories.getCategories);
 router.get("/:id", validateToken, categories.getCategory);

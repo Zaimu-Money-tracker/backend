@@ -13,13 +13,14 @@ export async function getGoals(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred, cannot get goals",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred, cannot get goals: ", typedError));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get goals",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -33,13 +34,14 @@ export async function getGoal(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          messaage: "An error has occurred, cannot get goal",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred, cannot get goal: ", typedError));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get goal",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -73,13 +75,14 @@ export async function deleteGoal(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred while deleting goal",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred while deleting goal: ", typedError));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while deleting goal",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -92,12 +95,13 @@ export async function updateGoal(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred while updating goal",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred while updating goal: ", typedError));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while updating goal",
+        error: typedError.message,
+      });
+    }
   }
 }

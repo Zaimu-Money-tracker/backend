@@ -13,13 +13,14 @@ export async function getShortcuts(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred, cannot get goals",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred, cannot get goals: ", typedError));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get goals",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -36,13 +37,14 @@ export async function getShortcut(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred, cannot get goal",
-          error: typedError.message,
-        }),
-        console.log("An error has occurred, cannot get goal: ", typedError));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get goal",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -59,16 +61,14 @@ export async function createShortcut(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred while creating shortcut",
-          error: typedError.message,
-        }),
-        console.log(
-          "An error has occurred while creating shortcut: ",
-          typedError
-        ));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while creating shortcut",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -81,16 +81,14 @@ export async function deleteShortcut(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred while deleting shortcut",
-          error: typedError.message,
-        }),
-        console.log(
-          "An error has occurred while deleting shortcut: ",
-          typedError
-        ));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while deleting shortcut",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -103,15 +101,13 @@ export async function updateShortcut(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : (res.status(500).json({
-          message: "An error has occurred while updating shortcut",
-          error: typedError.message,
-        }),
-        console.log(
-          "An error has occurred while updating shortcut: ",
-          typedError
-        ));
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while updating shortcut",
+        error: typedError.message,
+      });
+    }
   }
 }

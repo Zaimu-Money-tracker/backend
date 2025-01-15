@@ -41,7 +41,7 @@ export async function createCategory(
     user: data.userId,
   });
 
-  return newCategory.save();
+  return await newCategory.save();
 }
 
 export async function deleteCategory(

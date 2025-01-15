@@ -3,14 +3,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const uri: string | undefined = process.env.MONGO_URI;
-
-if (!uri) {
-  throw new Error("Error connecting with database, can't find uri");
-}
-
 const conect = async () => {
   try {
+    if (!process.env.MONGO_URI) {
+      throw new Error("An unexpected error has occurred");
+    }
+
+    const uri: string = process.env.MONGO_URI;
+
     await mongoose.connect(uri, {});
     console.log("Succesfully conected to Zaimu's database");
   } catch (error) {

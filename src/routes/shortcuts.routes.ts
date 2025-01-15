@@ -1,10 +1,10 @@
-import express from "express";
+import express, { Router } from "express";
 import validateToken from "../middlewares/validateToken.js";
 import { validator } from "../middlewares/validator.middleware.js";
 import { createShortcutScheme } from "../schemas/shortcut.schema.js";
 import * as shortcuts from "../controllers/shortcuts.controller.js";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.get("/", validateToken, shortcuts.getShortcuts);
 router.get("/:id", validateToken, shortcuts.getShortcut);

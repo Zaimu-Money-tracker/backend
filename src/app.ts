@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
@@ -11,7 +11,7 @@ import categoryRoutes from "./routes/categories.routes.js";
 
 // TODO: Remove all console logs in the app
 
-const app = express();
+const app: Application = express();
 
 app.use(
   cors({ origin: "http://localhost:5173", credentials: true }),

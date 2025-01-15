@@ -1,4 +1,4 @@
-import mongoose, { HydratedDocument } from "mongoose";
+import mongoose from "mongoose";
 import userModel from "../models/user.model.js";
 import { HttpError } from "../utils/errors/http.error.js";
 import User from "../interfaces/user.interface.js";

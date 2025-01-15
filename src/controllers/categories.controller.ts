@@ -13,12 +13,14 @@ export async function getCategories(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : res.status(500).json({
-          message: "An error has occurred, cannot get categories",
-          error: typedError.message,
-        });
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get categories",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -35,12 +37,14 @@ export async function getCategory(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : res.status(500).json({
-          message: "An error has occurred, cannot get category",
-          error: typedError.message,
-        });
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred, cannot get category",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -57,12 +61,14 @@ export async function createCategory(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : res.status(500).json({
-          message: "An error has occurred while crating category",
-          error: typedError.message,
-        });
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while crating category",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -76,12 +82,14 @@ export async function deleteCategory(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : res.status(500).json({
-          message: "An error has occurred while deleting category",
-          error: typedError.message,
-        });
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while deleting category",
+        error: typedError.message,
+      });
+    }
   }
 }
 
@@ -95,11 +103,13 @@ export async function updateCategory(req: Request, res: Response) {
   } catch (error) {
     const typedError = error as Error;
 
-    typedError instanceof HttpError
-      ? res.status(typedError.statusCode).json({ message: typedError.message })
-      : res.status(500).json({
-          message: "An error has occurred while updating category",
-          error: typedError.message,
-        });
+    if (typedError instanceof HttpError) {
+      res.status(typedError.statusCode).json({ message: typedError.message });
+    } else {
+      res.status(500).json({
+        message: "An error has occurred while updating category",
+        error: typedError.message,
+      });
+    }
   }
 }
