@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "type": "module",
-  "author": "Sebastian Fernando Lozano Bello",
+  "author": "Sebastián Fernando Lozano Bello",
   "dependencies": {
     "@eslint/create-config": "1.4.0",
     "@types/bcryptjs": "^2.4.6",
@@ -23,6 +23,7 @@
     "zod": "^3.24.1"
   },
   "scripts": {
+    "test": "set NODE_OPTIONS=--experimental-vm-modules && jest",
     "start": "tsc && node dist/server.js",
     "dev": "tsc-watch --onSuccess \"node dist/server.js\"",
     "build": "tsc"
@@ -32,13 +33,18 @@
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.2",
+    "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.20.0",
     "@typescript-eslint/parser": "^8.20.0",
     "bcryptjs": "^2.4.3",
     "eslint": "^9.18.0",
     "globals": "^15.14.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.2.1",
     "typescript": "^5.7.2",

@@ -1,0 +1,25 @@
+{
+  "name": "John",
+  "lastName": "Doe",
+  "userName": "johndoe123",
+  "gender": "male",
+  "profession": "Engineer",
+  "birthDate": "1990-01-01",
+  "email": "johndoe@example.com",
+  "password": "securePassword123",
+  "settings": {
+    "language": "en",
+    "currency": "USD",
+    "appearance": "dark",
+    "weekStart": "Monday",
+    "monthStart": 1,
+    "theme": "Light",
+    "notifications": {
+      "email": true,
+      "push": true,
+      "whatsApp": false,
+      "weeklyReport": true,
+      "monthlyReport": false
+    }
+  }
+}

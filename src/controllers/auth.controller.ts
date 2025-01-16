@@ -4,7 +4,7 @@ import { accessToken } from "../libs/jwt.js";
 import User from "../interfaces/user.interface.js";
 import * as authService from "../services/auth.service.js";
 import { HttpError } from "../utils/errors/http.error.js";
-import userModel from "../models/user.model.js";
+// import userModel from "../models/user.model.js";
 
 export async function register(req: Request, res: Response) {
   try {
@@ -32,7 +32,6 @@ export async function register(req: Request, res: Response) {
       message: "An error has occurred during register",
       error: typedError.message,
     });
-    console.log("An error has occurred during register: ", typedError);
   }
 }
 
@@ -76,7 +75,7 @@ export async function login(req: Request, res: Response) {
 export async function logout(req: Request, res: Response) {
   try {
     // TODO: Remove line 80, just for testing in postman
-    await userModel.deleteMany({});
+    // await userModel.deleteMany({});
 
     res.cookie("token", "", { expires: new Date(0) });
     res.status(200).json({ message: "User logged out successfully" });

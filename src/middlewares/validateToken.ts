@@ -18,7 +18,8 @@ export default function validateToken(
     const { token } = req.cookies;
 
     if (!token) {
-      return res.status(401).json({ message: "Authorization denied" });
+      res.status(401).json({ message: "Authorization denied" });
+      throw new Error("Authorization denied");
     } else {
       jwt.verify(
         token,
