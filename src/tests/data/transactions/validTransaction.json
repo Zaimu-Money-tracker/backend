@@ -1,0 +1,13 @@
+{
+  "type": "expense",
+  "amount": 200,
+  "name": "Gym Membership",
+  "category": "63e6d18b60fa7c5adf327ce4",
+  "image": {
+    "url": "https://example.com/example-image.jpg",
+    "id": "img23456"
+  },
+  "description": "Monthly gym membership fee.",
+  "recurring": true,
+  "recurrency": "monthly"
+}

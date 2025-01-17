@@ -1,0 +1,10 @@
+{
+  "name": "Buy bread",
+  "type": "expense",
+  "category": "63e6d18b60fa7c5adf327ce4",
+  "image": {
+    "url": "https://example.com/expample-image.jpg",
+    "id": "img67890"
+  },
+  "amount": 15
+}

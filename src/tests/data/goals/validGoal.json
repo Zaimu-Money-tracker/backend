@@ -1,0 +1,10 @@
+{
+  "name": "New computer",
+  "image": {
+    "url": "https://example.com/expample-image.jpg",
+    "id": "img12345"
+  },
+  "description": "Buy a new computer to improve mi setup, play games and use heavy apps.",
+  "progress": 328,
+  "targetAmount": 1500
+}

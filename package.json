@@ -2,8 +2,8 @@
   "name": "zaimu-backend",
   "version": "0.0.1",
   "description": "",
-  "type": "module",
   "author": "Sebastián Fernando Lozano Bello",
+  "type": "module",
   "dependencies": {
     "@eslint/create-config": "1.4.0",
     "@types/bcryptjs": "^2.4.6",
