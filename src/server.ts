@@ -1,10 +1,13 @@
 import app from "./app.js";
 import dotenv from "dotenv";
 import conectDB from "./config/database.js";
+import Capitals from "./utils/capitals.js";
 
 dotenv.config();
 
 const port: string | undefined = process.env.SERVER_PORT;
+
+console.log(Capitals("hola"));
 
 app
   .listen(port, () => {

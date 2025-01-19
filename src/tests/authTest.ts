@@ -1,6 +1,6 @@
 import app from "../app.js";
-import userData from "./data/users/validUser.json";
-import userLogin from "./data/users/loginValidUser.json";
+import userData from "./mocks/users/validUser.json";
+import userLogin from "./mocks/users/loginValidUser.json";
 import request from "supertest";
 import { setCookie } from "./utils/cookie.js";
 

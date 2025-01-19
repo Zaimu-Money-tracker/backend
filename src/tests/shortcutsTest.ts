@@ -1,8 +1,8 @@
 import request from "supertest";
 import app from "../app.js";
 import { getCookie } from "./utils/cookie.js";
-import shortcutData from "./data/shortcuts/validShortcut.json";
-import updateShortcutData from "./data/shortcuts/upteShortcut.json";
+import shortcutData from "./mocks/shortcuts/validShortcut.json";
+import updateShortcutData from "./mocks/shortcuts/upteShortcut.json";
 
 let id: string;
 

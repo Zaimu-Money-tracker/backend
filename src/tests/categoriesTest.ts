@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "../app.js";
-import categoryData from "./data/categories/validCategory.json";
-import updateCategoryData from "./data/categories/updateCategory.json";
+import categoryData from "./mocks/categories/validCategory.json";
+import updateCategoryData from "./mocks/categories/updateCategory.json";
 import { getCookie } from "./utils/cookie.js";
 
 let id: string;

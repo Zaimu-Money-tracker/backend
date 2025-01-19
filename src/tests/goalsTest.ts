@@ -1,8 +1,8 @@
 import request from "supertest";
 import app from "../app.js";
 import { getCookie } from "./utils/cookie.js";
-import goalData from "./data/goals/validGoal.json";
-import updateGoalData from "./data/goals/updateGoal.json";
+import goalData from "./mocks/goals/validGoal.json";
+import updateGoalData from "./mocks/goals/updateGoal.json";
 
 let id: string;
 

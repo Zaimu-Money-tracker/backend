@@ -1,8 +1,8 @@
 import request from "supertest";
 import app from "../app.js";
 import { getCookie } from "./utils/cookie.js";
-import transactionData from "./data/transactions/validTransaction.json";
-import updateTransactionData from "./data/transactions/updateTransaction.json";
+import transactionData from "./mocks/transactions/validTransaction.json";
+import updateTransactionData from "./mocks/transactions/updateTransaction.json";
 
 let id: string;
 
