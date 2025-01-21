@@ -71,7 +71,7 @@ export async function login(req: Request, res: Response) {
   }
 }
 
-export async function logout(req: Request, res: Response) {
+export function logout(req: Request, res: Response) {
   try {
     res.cookie("token", "", { expires: new Date(0) });
     res.status(200).json({ message: "User logged out successfully" });
