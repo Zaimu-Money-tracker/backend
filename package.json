@@ -1,6 +1,6 @@
 {
   "name": "zaimu-backend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "First full functional version of Zaimu's backend",
   "author": "Sebastián Fernando Lozano Bello",
   "type": "module",

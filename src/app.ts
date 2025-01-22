@@ -2,12 +2,12 @@ import express, { Application } from "express";
 import cors from "cors";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
-import authRoutes from "./routes/auth.routes.js";
-import userRoutes from "./routes/user.routes.js";
-import transactionRoutes from "./routes/transactions.routes.js";
-import goalRoutes from "./routes/goals.routes.js";
-import schemaRoutes from "./routes/shortcuts.routes.js";
-import categoryRoutes from "./routes/categories.routes.js";
+import authRoutes from "./routes/auth/auth.routes";
+import userRoutes from "./routes/user/user.routes.js";
+import transactionRoutes from "./routes/entities/transactions.routes.js";
+import goalRoutes from "./routes/entities/goals.routes.js";
+import schemaRoutes from "./routes/entities/shortcuts.routes.js";
+import categoryRoutes from "./routes/entities/categories.routes.js";
 
 // TODO: Remove all console logs in the app
 

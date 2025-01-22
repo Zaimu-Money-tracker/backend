@@ -1,6 +1,6 @@
 import app from "./app.js";
 import dotenv from "dotenv";
-import conectDB from "./config/database.js";
+import conectDB from "./config/db/database.js";
 import Capitals from "./utils/capitals.js";
 
 dotenv.config();
