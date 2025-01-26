@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import dotenv from "dotenv";
+import { EnvConfig } from "../../config/env.config";
 
-dotenv.config();
+const env = EnvConfig();
 
 export default function validateToken(
   req: Request,
@@ -10,11 +10,6 @@ export default function validateToken(
   next: NextFunction
 ) {
   try {
-    if (!process.env.JWT_SECRET_KEY) {
-      throw new Error("An unexpected error has occurred");
-    }
-
-    const SECRET_KEY: string = process.env.JWT_SECRET_KEY;
     const { token } = req.cookies;
 
     if (!token) {
@@ -23,7 +18,7 @@ export default function validateToken(
     } else {
       jwt.verify(
         token,
-        SECRET_KEY,
+        env.jwt_secret_key,
         (
           err: jwt.VerifyErrors | null,
           decoded: JwtPayload | string | undefined

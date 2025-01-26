@@ -1,17 +1,12 @@
 import app from "./app.js";
-import dotenv from "dotenv";
 import conectDB from "./config/db/database.js";
-import Capitals from "./utils/capitals.js";
+import { EnvConfig } from "./config/env.config.js";
 
-dotenv.config();
-
-const port: string | undefined = process.env.SERVER_PORT;
-
-console.log(Capitals("hola"));
+const env = EnvConfig();
 
 app
-  .listen(port, () => {
-    console.log(`Server running at port ${port}`);
+  .listen(env.port, () => {
+    console.log(`Server running at port ${env.port}`);
   })
   .on("error", (error: Error) => {
     console.error(

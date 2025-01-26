@@ -1,15 +1,11 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import { EnvConfig } from "../env.config";
 
-dotenv.config();
+const env = EnvConfig();
 
 const conect = async () => {
   try {
-    if (!process.env.MONGO_URI) {
-      throw new Error("An unexpected error has occurred");
-    }
-
-    const uri: string = process.env.MONGO_URI;
+    const uri: string = env.mongo;
 
     await mongoose.connect(uri, {});
     console.log("Succesfully conected to Zaimu's database");
