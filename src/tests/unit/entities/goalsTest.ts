@@ -12,7 +12,8 @@ describe("/POST Create a goal", () => {
       .post("/api/goals")
       .send(goalData)
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /text\/html/);
   });
 });
 
@@ -21,7 +22,8 @@ describe("/GET Return all goals", () => {
     const response = await request(app)
       .get("/api/goals")
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /application\/json/);
 
     id = response.body[0]._id;
   });
@@ -32,7 +34,8 @@ describe("/GET Return one goal by id", () => {
     await request(app)
       .get(`/api/goals/${id}`)
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /application\/json/);
   });
 });
 
@@ -42,7 +45,8 @@ describe("/GET Update goal", () => {
       .put(`/api/goals/${id}`)
       .send(updateGoalData)
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /text\/html/);
   });
 });
 
@@ -51,6 +55,7 @@ describe("/GET Delete goal", () => {
     await request(app)
       .delete(`/api/goals/${id}`)
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /text\/html/);
   });
 });

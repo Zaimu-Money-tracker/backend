@@ -1,16 +1,11 @@
 import mongoose from "mongoose";
 import Category from "../../interfaces/entities/category.interface.js";
 import categoryModel from "../../models/entities/category.model.js";
-import { HttpError } from "../../utils/errors/http.error.js";
 
 export async function getAllCategories(userId: mongoose.Schema.Types.ObjectId) {
   const categoriesFound = await categoryModel
     .find({ user: userId })
     .populate("user");
-
-  if (!categoriesFound) {
-    throw new HttpError("No categories found", 404);
-  }
 
   return categoriesFound;
 }
@@ -25,10 +20,6 @@ export async function getCategory(
       _id: paramsId,
     })
     .populate("user");
-
-  if (!categoryFound) {
-    throw new HttpError("Category not found", 404);
-  }
 
   return categoryFound;
 }
@@ -53,10 +44,6 @@ export async function deleteCategory(
     _id: paramsId,
   });
 
-  if (!categoryFound) {
-    throw new HttpError("Category not found, cannot delete", 404);
-  }
-
   return categoryFound;
 }
 
@@ -70,10 +57,6 @@ export async function updateCategory(
     bodyUpdate,
     { new: true }
   );
-
-  if (!categoryFound) {
-    throw new HttpError("Category not found, cannot update", 404);
-  }
 
   return categoryFound;
 }

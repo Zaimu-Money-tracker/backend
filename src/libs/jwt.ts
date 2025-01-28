@@ -1,7 +1,9 @@
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
-import { EnvConfig } from "../config/env.config";
+import { EnvConfig } from "../config/env.config.js";
 
 const env = EnvConfig();
+
+// FIXME: Fix jwt, create access token and refresh token
 
 export function accessToken(payload: JwtPayload): Promise<string> {
   return new Promise((resolve, reject) => {

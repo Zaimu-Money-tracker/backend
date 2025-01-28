@@ -23,6 +23,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.7
         version: 9.0.7
+      bcryptjs:
+        specifier: ^2.4.3
+        version: 2.4.3
       busboy:
         specifier: ^1.6.0
         version: 1.6.0
@@ -87,9 +90,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.20.0
         version: 8.20.0(eslint@9.18.0)(typescript@5.7.2)
-      bcryptjs:
-        specifier: ^2.4.3
-        version: 2.4.3
       eslint:
         specifier: ^9.18.0
         version: 9.18.0

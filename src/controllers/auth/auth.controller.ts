@@ -1,86 +1,87 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { accessToken } from "../../libs/jwt.js";
 import User from "../../interfaces/user/user.interface.js";
 import * as authService from "../../services/auth/auth.service.js";
-import { HttpError } from "../../utils/errors/http.error.js";
+import {
+  ConflictError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../../utils/errors/custom/client.errors.js";
+import dotenv from "dotenv";
 
-export async function register(req: Request, res: Response) {
+dotenv.config();
+
+export async function register(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
-    const { password }: User = req.body;
+    const { password, email }: User = req.body;
 
-    const passwordHash: string = await bcrypt.hash(password, 15);
+    const passwordHash: string = await bcrypt.hash(password, 10);
+    const foundUser = await authService.findUser(email);
+
+    if (foundUser) throw new ConflictError("User already exist");
 
     const newUser = await authService.createUser({
       ...req.body,
-      passwordHash,
+      password: passwordHash,
     });
 
     const token: string = await accessToken({ id: newUser._id });
 
     res.cookie("access_token", token, {
       httpOnly: true,
-      // secure: true, -> // FIXME: ONLY IN PRODUCTION
+      secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-    res.status(200).json({ message: "User created successfully" });
+
+    res.status(200).send("User created successfully");
   } catch (error) {
     const typedError = error as Error;
 
-    res.status(500).json({
-      message: "An error has occurred during register",
-      error: typedError.message,
-    });
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function login(req: Request, res: Response) {
+export async function login(req: Request, res: Response, next: NextFunction) {
   try {
     const { email, password }: User = req.body;
 
     const userFound = await authService.findUser(email);
 
-    if (!userFound) {
-      res.status(404).json({ message: "User not found" });
-    }
+    if (!userFound) throw new NotFoundError("User not found");
 
     const matchPassword: boolean = await bcrypt.compare(
       password,
       userFound.password
     );
 
-    if (!matchPassword) {
-      res.status(401).json({ message: "Invalid credentials, cannot login" });
-    }
+    if (!matchPassword) throw new UnauthorizedError("Invalid credentials");
 
     const token: string = await accessToken({ id: userFound._id });
 
     res.cookie("token", token, { httpOnly: true });
-    res.status(200).json({ message: "Logged in successfully" });
+    res.status(200).send("Logged in successfully");
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred during login",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export function logout(req: Request, res: Response) {
+export function logout(req: Request, res: Response, next: NextFunction) {
   try {
-    res.cookie("token", "", { expires: new Date(0) });
-    res.status(200).json({ message: "User logged out successfully" });
+    res.cookie("access_token", "", { expires: new Date(0) });
+    res.status(200).send("User logged out successfully");
   } catch (error) {
     const typedError = error as Error;
 
-    res.status(500).json({
-      message: "An error has occurred during logout",
-      error: typedError.message,
-    });
+    console.error(typedError);
+    return next(typedError);
   }
 }

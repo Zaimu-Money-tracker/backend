@@ -1,14 +1,9 @@
 import mongoose from "mongoose";
 import goalModel from "../../models/entities/goal.model.js";
 import Goal from "../../interfaces/entities/goal.interface.js";
-import { HttpError } from "../../utils/errors/http.error.js";
 
 export async function getAllGoals(userId: mongoose.Schema.Types.ObjectId) {
   const goalsFound = await goalModel.find({ user: userId }).populate("user");
-
-  if (!goalsFound) {
-    throw new HttpError("No goals found", 404);
-  }
 
   return goalsFound;
 }
@@ -20,10 +15,6 @@ export async function getGoal(
   const goalFound = await goalModel
     .findOne({ user: userId, _id: paramsId })
     .populate("user");
-
-  if (!goalFound) {
-    throw new HttpError("Goal not found", 404);
-  }
 
   return goalFound;
 }
@@ -48,10 +39,6 @@ export async function deleteGoal(
     _id: paramsId,
   });
 
-  if (!goalFound) {
-    throw new HttpError("Goal not found, cannot delete", 404);
-  }
-
   return goalFound;
 }
 
@@ -65,10 +52,6 @@ export async function updateGoal(
     bodyUpdate,
     { new: true }
   );
-
-  if (!goalFound) {
-    throw new HttpError("Goal not found, cannot update", 404);
-  }
 
   return goalFound;
 }

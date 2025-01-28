@@ -6,12 +6,10 @@ const env = EnvConfig();
 
 app
   .listen(env.port, () => {
-    console.log(`Server running at port ${env.port}`);
+    console.log(`🔸 Server running successfully`);
   })
   .on("error", (error: Error) => {
-    console.error(
-      `Can't run the server, an error has occurred: ${error.message}`
-    );
+    console.error(`🔻 Oops, something went wrong: ${error}`);
   });
 
 void conectDB();

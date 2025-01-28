@@ -1,21 +1,16 @@
 import mongoose from "mongoose";
 import transactionModel from "../../models/entities/transaction.model.js";
 import Transaction from "../../interfaces/entities/transaction.interface.js";
-import { HttpError } from "../../utils/errors/http.error.js";
 
 export async function getAllTransactions(
   userId: mongoose.Schema.Types.ObjectId
 ) {
-  const transactionFound = await transactionModel
+  const transactionsFound = await transactionModel
     .find({ user: userId })
     .populate("user")
     .populate("category");
 
-  if (!transactionFound) {
-    throw new HttpError("No transactions found", 404);
-  }
-
-  return transactionFound;
+  return transactionsFound;
 }
 
 export async function getTransaction(
@@ -26,10 +21,6 @@ export async function getTransaction(
     .findOne({ user: userId, _id: paramsId })
     .populate("user")
     .populate("category");
-
-  if (!transactionFound) {
-    throw new HttpError("Transaction not found", 404);
-  }
 
   return transactionFound;
 }
@@ -42,10 +33,6 @@ export async function getAllByType(
     .find({ user: userId, type: type })
     .populate("user")
     .populate("category");
-
-  if (!transactionFound) {
-    throw new HttpError(`${type} not found`, 404);
-  }
 
   return transactionFound;
 }
@@ -70,10 +57,6 @@ export async function deleteTransaction(
     _id: paramsId,
   });
 
-  if (!transactionFound) {
-    throw new HttpError("Transaction not found, cannot delete", 404);
-  }
-
   return transactionFound;
 }
 
@@ -87,10 +70,6 @@ export async function updateTransaction(
     bodyUpdate,
     { new: true }
   );
-
-  if (!transactionFound) {
-    throw new HttpError("Transaction not found, cannot update", 404);
-  }
 
   return transactionFound;
 }

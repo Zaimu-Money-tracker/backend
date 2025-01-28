@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import { EnvConfig } from "../../config/env.config";
+import { EnvConfig } from "../../config/env.config.js";
 
 const env = EnvConfig();
 
@@ -11,9 +11,13 @@ cloudinary.config({
 });
 
 export async function cloudUpload(filePath: string, folder: string) {
-  return await cloudinary.uploader.upload(filePath, { folder });
+  const uploadImage = await cloudinary.uploader.upload(filePath, { folder });
+
+  return uploadImage;
 }
 
 export async function cloudDelete(publicId: string) {
-  return await cloudinary.uploader.destroy(publicId);
+  const deleteImage = await cloudinary.uploader.destroy(publicId);
+
+  return deleteImage;
 }

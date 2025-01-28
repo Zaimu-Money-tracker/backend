@@ -1,14 +1,9 @@
 import mongoose from "mongoose";
 import userModel from "../../models/user/user.model.js";
-import { HttpError } from "../../utils/errors/http.error.js";
 import User from "../../interfaces/user/user.interface.js";
 
 export async function getUserById(userId: mongoose.Schema.Types.ObjectId) {
   const userFound = await userModel.findById(userId);
-
-  if (!userFound) {
-    throw new HttpError("User not found", 404);
-  }
 
   return userFound;
 }
@@ -22,10 +17,6 @@ export async function updateUser(
     bodyUpdate,
     { new: true }
   );
-
-  if (!userFound) {
-    throw new HttpError("User not found, cannot update", 404);
-  }
 
   return userFound;
 }

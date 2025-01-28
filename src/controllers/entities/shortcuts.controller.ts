@@ -1,30 +1,34 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import * as shortcutService from "../../services/entities/shortcuts.service.js";
 import { JwtPayload } from "jsonwebtoken";
-import { HttpError } from "../../utils/errors/http.error.js";
+import { NotFoundError } from "../../utils/errors/custom/client.errors.js";
 
-export async function getShortcuts(req: Request, res: Response) {
+export async function getShortcuts(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
     const shortcutsFound = await shortcutService.getAllShortcuts(user.id);
 
+    if (!shortcutsFound) throw new NotFoundError("Not shortcuts found");
+
     res.status(200).json(shortcutsFound);
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred, cannot get goals",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function getShortcut(req: Request, res: Response) {
+export async function getShortcut(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
@@ -33,22 +37,22 @@ export async function getShortcut(req: Request, res: Response) {
       req.params.id
     );
 
+    if (!shortcutFound) throw new NotFoundError("Shortcut not found");
+
     res.status(200).json(shortcutFound);
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred, cannot get goal",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function createShortcut(req: Request, res: Response) {
+export async function createShortcut(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
@@ -57,57 +61,60 @@ export async function createShortcut(req: Request, res: Response) {
       userId: user.id,
     });
 
-    res.status(200).json({ message: "Shortcut created successfully" });
+    res.status(200).send("Shortcut created successfully");
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred while creating shortcut",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function deleteShortcut(req: Request, res: Response) {
+export async function deleteShortcut(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
-    await shortcutService.deleteShortcut(user.id, req.params.id);
-    res.status(200).json({ message: "Shortcut deleted successfully" });
+    const shortcutFound = await shortcutService.deleteShortcut(
+      user.id,
+      req.params.id
+    );
+
+    if (!shortcutFound) throw new NotFoundError("Shortcut not found");
+
+    res.status(200).send("Shortcut deleted successfully");
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred while deleting shortcut",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function updateShortcut(req: Request, res: Response) {
+export async function updateShortcut(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
-    await shortcutService.updateShortcut(user.id, req.params.id, req.body);
-    res.status(200).json({ message: "Shortcut updated successfully" });
+    const shortcutFound = await shortcutService.updateShortcut(
+      user.id,
+      req.params.id,
+      req.body
+    );
+
+    if (!shortcutFound) throw new NotFoundError("Shortcut not found");
+
+    res.status(200).send("Shortcut updated successfully");
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred while updating shortcut",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { EnvConfig } from "../../config/env.config";
+import { EnvConfig } from "../../config/env.config.js";
 
 const env = EnvConfig();
 

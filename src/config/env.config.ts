@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { envScheme } from "../schemas/env/env.schema";
+import { envScheme } from "../schemas/env/env.schema.js";
 
 dotenv.config();
 

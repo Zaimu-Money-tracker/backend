@@ -14,7 +14,7 @@ describe("/POST Register an user", () => {
         .post("/api/register")
         .send(userData)
         .expect(200)
-        .expect("Content-Type", /application\/json/);
+        .expect("Content-Type", /text\/html/);
     },
     maxTimeOut
   );
@@ -26,7 +26,7 @@ describe("/POST Logout user", () => {
       .post("/api/logout")
       .send()
       .expect(200)
-      .expect("Content-Type", /application\/json/);
+      .expect("Content-Type", /text\/html/);
   });
 });
 
@@ -36,7 +36,7 @@ describe("/POST Login user", () => {
       .post("/api/login")
       .send(userLogin)
       .expect(200)
-      .expect("Content-Type", /application\/json/);
+      .expect("Content-Type", /text\/html/);
 
     setCookie(response.headers["set-cookie"][0]);
   });

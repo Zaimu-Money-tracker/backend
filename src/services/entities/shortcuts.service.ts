@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import shortcutModel from "../../models/entities/shortcut.model.js";
-import { HttpError } from "../../utils/errors/http.error.js";
 import Shortcut from "../../interfaces/entities/shortcut.interface.js";
 
 export async function getAllShortcuts(userId: mongoose.Schema.Types.ObjectId) {
@@ -8,10 +7,6 @@ export async function getAllShortcuts(userId: mongoose.Schema.Types.ObjectId) {
     .find({ user: userId })
     .populate("user")
     .populate("category");
-
-  if (!shortcutsFound) {
-    throw new HttpError("Not shortcuts found", 404);
-  }
 
   return shortcutsFound;
 }
@@ -27,10 +22,6 @@ export async function getShortcut(
     })
     .populate("user")
     .populate("category");
-
-  if (!shortcutFound) {
-    throw new HttpError("Shortcut not found", 404);
-  }
 
   return shortcutFound;
 }
@@ -52,10 +43,6 @@ export async function deleteShortcut(
     _id: paramsId,
   });
 
-  if (!shortcutFound) {
-    throw new HttpError("Shortcurt not found", 404);
-  }
-
   return shortcutFound;
 }
 
@@ -69,10 +56,6 @@ export async function updateShortcut(
     bodyUpdate,
     { new: true }
   );
-
-  if (!shortcutFound) {
-    throw new HttpError("Shortcut not found", 404);
-  }
 
   return shortcutFound;
 }

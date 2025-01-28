@@ -1,51 +1,51 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import * as goalsService from "../../services/entities/goals.service.js";
-import { HttpError } from "../../utils/errors/http.error.js";
+import { NotFoundError } from "../../utils/errors/custom/client.errors.js";
 
-export async function getGoals(req: Request, res: Response) {
+export async function getGoals(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
     const goalsFound = await goalsService.getAllGoals(user.id);
 
+    if (!goalsFound) throw new NotFoundError("No goals found");
+
     res.status(200).json(goalsFound);
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred, cannot get goals",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function getGoal(req: Request, res: Response) {
+export async function getGoal(req: Request, res: Response, next: NextFunction) {
   try {
     const user = req.user as JwtPayload;
 
     const goalFound = await goalsService.getGoal(user.id, req.params.id);
 
+    if (!goalFound) throw new NotFoundError("Goal not found");
+
     res.status(200).json(goalFound);
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred, cannot get goal",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function createGoal(req: Request, res: Response) {
+export async function createGoal(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
@@ -54,54 +54,57 @@ export async function createGoal(req: Request, res: Response) {
       userId: user.id,
     });
 
-    res.status(200).json({ message: "Goal created successfully" });
+    res.status(200).send("Goal created successfully");
   } catch (error) {
     const typedError = error as Error;
 
-    res.status(500).json({
-      message: "An error has occurred while creating goal",
-      error: typedError.message,
-    });
-    console.log("An error has occurred while creating goal: ", typedError);
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function deleteGoal(req: Request, res: Response) {
+export async function deleteGoal(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
-    await goalsService.deleteGoal(user.id, req.params.id);
-    res.status(200).json({ message: "Goal deleted successfully" });
+    const goalFound = await goalsService.deleteGoal(user.id, req.params.id);
+
+    if (!goalFound) throw new NotFoundError("Goal not found");
+
+    res.status(200).send("Goal deleted successfully");
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred while deleting goal",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function updateGoal(req: Request, res: Response) {
+export async function updateGoal(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
-    await goalsService.updateGoal(user.id, req.params.id, req.body);
-    res.status(200).json({ message: "Goal updated successfully" });
+    const goalFound = await goalsService.updateGoal(
+      user.id,
+      req.params.id,
+      req.body
+    );
+
+    if (!goalFound) throw new NotFoundError("Goal not found");
+
+    res.status(200).send("Goal updated successfully");
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred while updating goal",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }

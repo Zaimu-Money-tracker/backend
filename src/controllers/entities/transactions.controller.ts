@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import * as transactionsService from "../../services/entities/transactions.service.js";
-import { HttpError } from "../../utils/errors/http.error.js";
+import { NotFoundError } from "../../utils/errors/custom/client.errors.js";
 
-export async function getTransactions(req: Request, res: Response) {
+export async function getTransactions(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
@@ -11,45 +15,46 @@ export async function getTransactions(req: Request, res: Response) {
       user.id
     );
 
+    if (!transactionsFound) throw new NotFoundError("No transactions found");
+
     res.status(200).json(transactionsFound);
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res
-        .status(500)
-        .json({ message: "An error has occurred, cannot get transactions" });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function getTransaction(req: Request, res: Response) {
+export async function getTransaction(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
-    const transactionsFound = await transactionsService.getTransaction(
+    const transactionFound = await transactionsService.getTransaction(
       user.id,
       req.params.id
     );
 
-    res.status(200).json(transactionsFound);
+    if (!transactionFound) throw new NotFoundError("Transaction not found");
+
+    res.status(200).json(transactionFound);
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred, cannot get transaction",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function getIncomes(req: Request, res: Response) {
+export async function getIncomes(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
@@ -58,22 +63,22 @@ export async function getIncomes(req: Request, res: Response) {
       "income"
     );
 
+    if (!transactionsFound) throw new NotFoundError("No incomes found");
+
     res.status(200).json(transactionsFound);
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred, cannot get incomes",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function getExpenses(req: Request, res: Response) {
+export async function getExpenses(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
@@ -82,22 +87,22 @@ export async function getExpenses(req: Request, res: Response) {
       "expense"
     );
 
+    if (!transactionsFound) throw new NotFoundError("No expenses found");
+
     res.status(200).json(transactionsFound);
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred, cannot get expenses",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function createTransaction(req: Request, res: Response) {
+export async function createTransaction(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
@@ -106,62 +111,60 @@ export async function createTransaction(req: Request, res: Response) {
       userId: user.id,
     });
 
-    res.status(200).json({ message: "Transaction created successfully" });
+    res.status(200).send("Transaction created successfully");
   } catch (error) {
     const typedError = error as Error;
 
-    res.status(500).json({
-      message: "An error has occurred while creating transaction",
-      error: typedError.message,
-    });
-    console.log(
-      "An error has occurred while creating transaction: ",
-      typedError
+    console.error(typedError);
+    return next(typedError);
+  }
+}
+
+export async function deleteTransaction(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const user = req.user as JwtPayload;
+
+    const transactionFound = await transactionsService.deleteTransaction(
+      user.id,
+      req.params.id
     );
-  }
-}
 
-export async function deleteTransaction(req: Request, res: Response) {
-  try {
-    const user = req.user as JwtPayload;
+    if (!transactionFound) throw new NotFoundError("Transaction not found");
 
-    await transactionsService.deleteTransaction(user.id, req.params.id);
-    res.status(200).json({ message: "Transaction deleted succesfully" });
+    res.status(200).send("Transaction deleted succesfully");
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred while deleting transaction",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }
 
-export async function updateTransaction(req: Request, res: Response) {
+export async function updateTransaction(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const user = req.user as JwtPayload;
 
-    await transactionsService.updateTransaction(
+    const transactionFound = await transactionsService.updateTransaction(
       user.id,
       req.params.id,
       req.body
     );
 
-    res.status(200).json({ message: "Transaction updated succesfully" });
+    if (!transactionFound) throw new NotFoundError("Transaction not found");
+
+    res.status(200).send("Transaction updated succesfully");
   } catch (error) {
     const typedError = error as Error;
 
-    if (typedError instanceof HttpError) {
-      res.status(typedError.statusCode).json({ message: typedError.message });
-    } else {
-      res.status(500).json({
-        message: "An error has occurred while updating transaction",
-        error: typedError.message,
-      });
-    }
+    console.error(typedError);
+    return next(typedError);
   }
 }

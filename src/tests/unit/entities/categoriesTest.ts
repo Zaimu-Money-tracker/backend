@@ -12,7 +12,8 @@ describe("/POST Create a category", () => {
       .post("/api/categories")
       .send(categoryData)
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /text\/html/);
   });
 });
 
@@ -21,7 +22,8 @@ describe("/GET Return all categories", () => {
     const response = await request(app)
       .get("/api/categories")
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /application\/json/);
 
     id = response.body[0]._id;
   });
@@ -32,7 +34,8 @@ describe("/GET Return one category by id", () => {
     await request(app)
       .get(`/api/categories/${id}`)
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /application\/json/);
   });
 });
 
@@ -42,7 +45,8 @@ describe("/POST Update category", () => {
       .put(`/api/categories/${id}`)
       .send(updateCategoryData)
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /text\/html/);
   });
 });
 
@@ -51,6 +55,7 @@ describe("/POST Delete category", () => {
     await request(app)
       .delete(`/api/categories/${id}`)
       .expect(200)
-      .set("Cookie", getCookie());
+      .set("Cookie", getCookie())
+      .expect("Content-Type", /text\/html/);
   });
 });
