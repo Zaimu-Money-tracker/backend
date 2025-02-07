@@ -12,6 +12,7 @@ const {
   CLOUD_NAME: cloud_name,
   CLOUD_API_KEY: cloud_api_key,
   CLOUD_API_SECRET: cloud_api_secret,
+  NODE_ENV: node,
 } = parsedEnv;
 
 export const EnvConfig = () => ({
@@ -21,4 +22,5 @@ export const EnvConfig = () => ({
   cloud_name,
   cloud_api_key,
   cloud_api_secret,
+  node,
 });

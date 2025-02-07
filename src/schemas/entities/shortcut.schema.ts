@@ -27,16 +27,6 @@ export const createShortcutScheme = z.object({
       message: "The shortcut category doesn't seem right. Please recheck it!",
     })
     .optional(),
-  image: z
-    .object({
-      url: z
-        .string({ message: "Don't leave this field empty, it's important!" })
-        .optional(),
-      id: z
-        .string({ message: "Don't leave this field empty, it's important!" })
-        .optional(),
-    })
-    .optional(),
   amount: z.number({
     required_error: "Don't leave this field empty, it's important!",
   }),

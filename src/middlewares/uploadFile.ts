@@ -63,11 +63,7 @@ export default async function uploadFile(
   } catch (error) {
     const typedError = error as Error;
 
-    res
-      .status(500)
-      .json({
-        message: "An error occurred durling upload",
-        error: typedError.message,
-      });
+    console.error(typedError);
+    next(typedError);
   }
 }

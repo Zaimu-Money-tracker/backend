@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { EnvConfig } from "../../config/env.config.js";
+import {
+  ForbiddenError,
+  UnauthorizedError,
+} from "../../utils/errors/custom/client.errors.js";
 
 const env = EnvConfig();
 
@@ -10,21 +14,20 @@ export default function validateToken(
   next: NextFunction
 ) {
   try {
-    const { token } = req.cookies;
+    const { access_token } = req.cookies;
 
-    if (!token) {
-      res.status(401).json({ message: "Authorization denied" });
-      throw new Error("Authorization denied");
+    if (!access_token) {
+      throw new UnauthorizedError("Authorization denied");
     } else {
       jwt.verify(
-        token,
+        access_token,
         env.jwt_secret_key,
         (
           err: jwt.VerifyErrors | null,
           decoded: JwtPayload | string | undefined
         ) => {
           if (err) {
-            return res.status(403).json({ message: "Authorization denied" });
+            throw new ForbiddenError("Authorization denied");
           }
 
           req.user = decoded;
@@ -35,8 +38,7 @@ export default function validateToken(
   } catch (error) {
     const typedError = error as JwtPayload;
 
-    res
-      .status(500)
-      .json({ message: "An error has ocurred", error: typedError.message });
+    console.error(typedError);
+    next(typedError);
   }
 }

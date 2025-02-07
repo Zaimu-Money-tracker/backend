@@ -4,14 +4,16 @@ const userSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
     lastName: { type: String, required: true, trim: true },
-    userName: { type: String, required: true, unique: true, trim: true },
-    gender: { type: String, required: true, trim: true },
     profilePhoto: {
-      url: { type: String, require: false, default: "" },
-      id: { type: String, require: false, default: "" },
+      url: {
+        type: String,
+        require: false,
+        default:
+          "https://res.cloudinary.com/zaimu/image/upload/v1738339789/No-Profile-Picture_igg17f.webp",
+      },
+      id: { type: String, require: false, default: "Default_Image" },
     },
     profession: { type: String, required: false, default: "User", trim: true },
-    birthDate: { type: Date, required: true },
     phoneNumber: { type: String, required: false, default: "", trim: true },
     email: { type: String, unique: true, required: true, trim: true },
     password: { type: String, required: true },
@@ -31,7 +33,7 @@ const userSchema = new mongoose.Schema(
         default: 1,
         trim: true,
       },
-      theme: { type: String, required: true, trim: true },
+      theme: { type: String, required: false, default: "Default", trim: true },
       notifications: {
         email: { type: Boolean, default: true },
         push: { type: Boolean, default: true },

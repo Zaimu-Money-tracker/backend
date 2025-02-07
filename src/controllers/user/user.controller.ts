@@ -17,11 +17,8 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
     res.status(200).json({
       name: userFound.name,
       lastName: userFound.lastName,
-      userName: userFound.userName,
-      gender: userFound.gender,
       profilePhoto: userFound.profilePhoto,
       profession: userFound.profession,
-      birthDate: userFound.birthDate,
       phoneNumber: userFound.phoneNumber,
       email: userFound.email,
       settings: userFound.settings,

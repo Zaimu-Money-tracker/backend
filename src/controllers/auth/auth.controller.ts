@@ -8,9 +8,9 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "../../utils/errors/custom/client.errors.js";
-import dotenv from "dotenv";
+import { EnvConfig } from "../../config/env.config.js";
 
-dotenv.config();
+const env = EnvConfig();
 
 export async function register(
   req: Request,
@@ -34,7 +34,7 @@ export async function register(
 
     res.cookie("access_token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: env.node === "production",
       sameSite: "strict",
     });
 
@@ -64,7 +64,11 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     const token: string = await accessToken({ id: userFound._id });
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      secure: env.node === "production",
+      sameSite: "strict",
+    });
     res.status(200).send("Logged in successfully");
   } catch (error) {
     const typedError = error as Error;

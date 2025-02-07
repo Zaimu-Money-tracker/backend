@@ -24,22 +24,6 @@ export const registerScheme = z.object({
     .regex(regex.text, { message: "Name only can contain letters" })
     .trim()
     .toLowerCase(),
-  userName: z
-    .string({ required_error: "Don't leave this field empty, it's important!" })
-    .min(3, {
-      message:
-        "Too short for a username! Please try again with at least 3 characters!",
-    })
-    .trim()
-    .toLowerCase(),
-  gender: z
-    .string({ required_error: "Don't leave this field empty, it's important!" })
-    .min(3, {
-      message:
-        "Gender is too short. Please try again with at least 3 characters!",
-    })
-    .trim()
-    .toLowerCase(),
   profilePhoto: z
     .object({
       url: z
@@ -71,9 +55,6 @@ export const registerScheme = z.object({
     .trim()
     .toLowerCase()
     .optional(),
-  birthDate: z
-    .string({ required_error: "Don't leave this field empty, it's important!" })
-    .date("Your date of birth doesn't look right. Please check the format!"),
   phoneNumber: z
     .string({
       message: "This phone number doesn't seem valid. Please recheck it!",
@@ -127,7 +108,8 @@ export const registerScheme = z.object({
         required_error: "Don't leave this field empty, it's important!",
       })
       .trim()
-      .toLowerCase(),
+      .toLowerCase()
+      .optional(),
     notifications: z.object({
       email: z
         .boolean({

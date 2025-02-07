@@ -9,6 +9,7 @@ export const validator =
     } catch (error) {
       const typedError = error as ZodError;
 
-      res.status(400).json({ error: typedError.errors });
+      console.error(typedError);
+      next(typedError);
     }
   };

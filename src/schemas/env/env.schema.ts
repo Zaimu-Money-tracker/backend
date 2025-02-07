@@ -7,4 +7,5 @@ export const envScheme = z.object({
   CLOUD_NAME: z.string(),
   CLOUD_API_KEY: z.string(),
   CLOUD_API_SECRET: z.string(),
+  NODE_ENV: z.string(),
 });

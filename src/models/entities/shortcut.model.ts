@@ -9,10 +9,6 @@ const shortcutSchema = new mongoose.Schema(
       ref: "Category",
       required: false,
     },
-    image: {
-      url: { type: String, require: false, default: "" },
-      id: { type: String, require: false, default: "" },
-    },
     amount: { type: Number, required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   },

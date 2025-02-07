@@ -1,14 +1,11 @@
 export default interface User {
   name: string;
   lastName: string;
-  userName: string;
-  gender: string;
   profilePhoto: {
     url: string;
     id: string;
   };
   profession: string;
-  birthDate: Date;
   phoneNumber: string;
   email: string;
   password: string;
